@@ -1,68 +1,88 @@
-<script type="text/javascript">
-    try{ace.settings.check('main-container' , 'fixed')}catch(e){}
-</script>
+<!-- Main Sidebar Container -->
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+   <!-- Brand Logo -->
+   <a href="#" class="brand-link">
+      <img src="{{ asset('assets/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <span class="brand-text font-weight-light">Simple Blog</span>
+   </a>
 
-<div id="sidebar" class="sidebar responsive">
-    <script type="text/javascript">
-        try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
-    </script>
+   <!-- Sidebar -->
+   <div class="sidebar">
+      <!-- Sidebar user (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+         <div class="image">
+            <img src="{{ asset('assets/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
+         </div>
+         <div class="info">
+            <a href="#" class="d-block">{{ auth()->user()->name }}</a>
+         </div>
+      </div>
 
-    <ul class="nav nav-list">
-        <li class="">
-            <a href="/dashboard">
-                <i class="menu-icon fa fa-tachometer"></i>
-                <span class="menu-text"> Dashboard </span>
-            </a>
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+            <li class="nav-item">
+               <a href="/dashboard" class="nav-link">
+                  <i class="nav-icon fas fa-tachometer-alt"></i>
+                  <p>
+                     Dashboard 
+                  </p>
+               </a>
+            </li>
+            <li class="nav-item">
+               <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-th"></i>
+                  <p>
+                     Kategori 
+                  </p>
+               </a>
+            </li>
+            <li class="nav-item">
+               <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-edit"></i>
+                  <p>
+                     Kelola Postingan
+                     <i class="right fas fa-angle-left"></i>
+                  </p>
+               </a>
+               <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                     <a href="../../index.html" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Daftar Postingan</p>
+                     </a>
+                  </li>
+                  <li class="nav-item">
+                     <a href="../../index2.html" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Postingan Saya</p>
+                     </a>
+                  </li>
+               </ul>
+            </li>
+            <li class="nav-item">
+               <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-users"></i>
+                  <p>
+                     User 
+                  </p>
+               </a>
+            </li>
+            <li class="nav-item">
 
-            <b class="arrow"></b>
-        </li>
-        <li class="">
-            <a href="index.html">
-                <i class="menu-icon fa fa-list"></i>
-                <span class="menu-text"> Daftar Kategori</span>
-            </a>
-
-            <b class="arrow"></b>
-        </li>
-        <li class="">
-            <a href="#" class="dropdown-toggle">
-                <i class="menu-icon fa fa-list-alt"></i>
-                <span class="menu-text"> Kelola Postingan</span>
-                <b class="arrow fa fa-angle-down"></b>
-            </a>
-            <b class="arrow"></b>
-
-            <ul class="submenu">
-                <li class="">
-                    <a href="tables.html">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        Daftar Postingan
-                    </a>
-                    <b class="arrow"></b>
-                </li>
-                <li class="">
-                    <a href="jqgrid.html">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        Postingan Saya
-                    </a>
-                    <b class="arrow"></b>
-                </li>
-            </ul>
-        </li>
-        <li class="">
-            <a href="index.html">
-                <i class="menu-icon fa fa-users"></i>
-                <span class="menu-text"> Kelola User</span>
-            </a>
-            <b class="arrow"></b>
-        </li>
-                   
-    </ul>
-
-    <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
-        <i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
-    </div>
-    <script type="text/javascript">
-        try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
-    </script>
-</div>
+               <form method="post" action="/logout">
+                    @csrf
+                    <button type="submit" class="btn nav-link">
+                        <i class="nav-icon fas fa-on-off"></i> Logout
+                    </button>
+                </form>
+            </li>
+         
+         </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+   </div>
+    <!-- /.sidebar -->
+</aside>
