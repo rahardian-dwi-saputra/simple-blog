@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\AuthController;
-
+use App\Http\Controllers\Backend\DashboardController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,5 +17,11 @@ use App\Http\Controllers\Backend\AuthController;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::middleware('auth')->group(function(){ 
+	Route::get('/dashboard', [DashboardController::class, 'index']);
+	Route::post('/logout', [LoginController::class, 'logout']);
+});
+
 Route::get('/login', [AuthController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'authenticate']);

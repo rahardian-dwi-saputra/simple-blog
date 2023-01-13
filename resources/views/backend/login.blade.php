@@ -65,19 +65,28 @@
 
                                             <div class="space-6"></div>
 
+                                            @if(session()->has('LoginError'))
+                                            <div class="alert alert-danger alert-dismissible" role="alert">
+                                                {{ session('LoginError') }}
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            @endif
+
                                             <form method="post" action="/login">
                                                 @csrf
                                                 <fieldset>
                                                     <label class="block clearfix">
                                                         <span class="block input-icon input-icon-right">
-                                                            <input type="text" class="form-control" placeholder="Username or Email" />
+                                                            <input type="text" class="form-control" placeholder="Username or Email" name="login" id="login" />
                                                             <i class="ace-icon fa fa-user"></i>
                                                         </span>
                                                     </label>
 
                                                     <label class="block clearfix">
                                                         <span class="block input-icon input-icon-right">
-                                                            <input type="password" class="form-control" placeholder="Password" />
+                                                            <input type="password" class="form-control" placeholder="Password" name="password" id="password" />
                                                             <i class="ace-icon fa fa-lock"></i>
                                                         </span>
                                                     </label>
@@ -86,11 +95,11 @@
 
                                                     <div class="clearfix">
                                                         <label class="inline">
-                                                            <input type="checkbox" class="ace" />
+                                                            <input type="checkbox" class="ace" name="remember_me"/>
                                                             <span class="lbl"> Remember Me</span>
                                                         </label>
 
-                                                        <button type="button" class="width-35 pull-right btn btn-sm btn-primary">
+                                                        <button type="submit" class="width-35 pull-right btn btn-sm btn-primary">
                                                             <i class="ace-icon fa fa-key"></i>
                                                             <span class="bigger-110">Login</span>
                                                         </button>
@@ -172,7 +181,7 @@
                                             <div class="space-6"></div>
                                             <p> Enter your details to begin: </p>
 
-                                            <form>
+                                            <form method="post">
                                                 <fieldset>
                                                     <label class="block clearfix">
                                                         <span class="block input-icon input-icon-right">
