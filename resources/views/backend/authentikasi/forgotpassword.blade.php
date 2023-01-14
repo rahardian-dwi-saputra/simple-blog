@@ -23,6 +23,8 @@
             </div>
             <div class="card-body">
 
+               <p class="login-box-msg">You forgot your password? Here you can easily retrieve a new password.</p>
+
                @if(session()->has('message'))
                <div class="alert alert-success alert-dismissible" role="alert">
                   {{ session('message') }}
@@ -32,17 +34,26 @@
                </div>
                @endif
 
-               <p class="login-box-msg">You forgot your password? Here you can easily retrieve a new password.</p>
                <form action="/forgot-password" method="post">
                   @csrf
-                  <div class="input-group mb-3">
-                     <input type="email" name="email" id="email" class="form-control" placeholder="Email">
+
+                  @error('email')
+                     <div class="input-group">
+                  @else
+                     <div class="input-group mb-3">
+                  @enderror
+                     <input type="email" name="email" id="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" placeholder="Email" autocomplete="off">
                      <div class="input-group-append">
                         <div class="input-group-text">
                            <span class="fas fa-envelope"></span>
                         </div>
                      </div>
                   </div>
+                  @error('email')
+                  <small class="form-text text-danger">{{ $message }}</small>
+                  <div class="mb-3"></div>
+                  @enderror
+
                   <div class="row">
                      <div class="col-12">
                         <button type="submit" class="btn btn-primary btn-block">Request new password</button>

@@ -34,10 +34,19 @@
                </div>
                @endif
 
+               @if(session()->has('message'))
+               <div class="alert alert-success alert-dismissible" role="alert">
+                  {{ session('message') }}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                  </button>
+               </div>
+               @endif
+
                <form action="/login" method="post">
                   @csrf
                   <div class="input-group mb-3">
-                     <input type="text" class="form-control" name="login" id="login" placeholder="Username or Email" autocomplete="off" autofocus>
+                     <input type="text" class="form-control" name="login" id="login" placeholder="Username or Email" autocomplete="off" autofocus required>
                      <div class="input-group-append">
                         <div class="input-group-text">
                            <span class="fas fa-user"></span>
@@ -45,7 +54,7 @@
                      </div>
                   </div>
                   <div class="input-group mb-3">
-                     <input type="password" class="form-control" name="password" id="password" placeholder="Password" autocomplete="off">
+                     <input type="password" class="form-control" name="password" id="password" placeholder="Password" autocomplete="off" required>
                      <div class="input-group-append">
                         <div class="input-group-text">
                            <span class="fas fa-lock"></span>
@@ -55,7 +64,7 @@
                   <div class="row">
                      <div class="col-8">
                         <div class="icheck-primary">
-                           <input type="checkbox" id="remember">
+                           <input type="checkbox" name="remember" id="remember" value="1">
                            <label for="remember">
                               Remember Me
                            </label>

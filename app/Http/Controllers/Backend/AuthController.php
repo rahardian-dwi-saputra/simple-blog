@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller{
     
@@ -12,10 +13,15 @@ class AuthController extends Controller{
     	return view('backend.authentikasi.login'); 
     }
     public function authenticate(Request $request){
-    	$this->validate($request, [
-        	'login'    => 'required',
-        	'password' => 'required',
-    	]);
+    	
+        $validator = Validator::make($request->all(), [
+            'login'    => 'required',
+            'password' => 'required|min:5',
+        ]);
+
+        if ($validator->fails()){
+            return back()->with('LoginError','Invalid Input');
+        }
 
         $login_type = filter_var($request->input('login'), FILTER_VALIDATE_EMAIL )? 'email': 'username';
         $request->merge([$login_type => $request->input('login')]);

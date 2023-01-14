@@ -17,8 +17,9 @@ class ForgotPasswordController extends Controller{
     	return view('backend.authentikasi.forgotpassword'); 
     }
     public function submitForgetPasswordForm(Request $request){
-    	$request->validate([
-            'email' => 'required|email|exists:users',
+
+        $request->validate([
+            'email' => 'required|email|exists:users'
         ]);
 
         $token = Str::random(64);
@@ -36,14 +37,14 @@ class ForgotPasswordController extends Controller{
 
         return back()->with('message', 'We have e-mailed your password reset link!');
     }
-    public function showResetPasswordForm(){
-    	return view('auth.forgetPasswordLink', ['token' => $token]);
+    public function showResetPasswordForm($token){
+        return view('backend.authentikasi.resetpassword', ['token' => $token]);
     }
     public function submitResetPasswordForm(Request $request){
 
         $request->validate([
             'email' => 'required|email|exists:users',
-            'password' => 'required|string|min:5|confirmed',
+            'password' => 'required|min:5|confirmed',
             'password_confirmation' => 'required'
         ]);
 
