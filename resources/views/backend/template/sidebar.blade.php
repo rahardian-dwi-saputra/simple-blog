@@ -31,8 +31,10 @@
                   </p>
                </a>
             </li>
+
+            @can('isAdmin')
             <li class="nav-item">
-               <a href="#" class="nav-link">
+               <a href="/category" class="nav-link">
                   <i class="nav-icon fas fa-th"></i>
                   <p>
                      Kategori 
@@ -63,13 +65,27 @@
                </ul>
             </li>
             <li class="nav-item">
-               <a href="#" class="nav-link">
+               <a href="/user" class="nav-link">
                   <i class="nav-icon fas fa-users"></i>
                   <p>
                      User 
                   </p>
                </a>
             </li>
+
+            @else
+
+            <li class="nav-item">
+               <a href="/category" class="nav-link">
+                  <i class="nav-icon fas fa-edit"></i>
+                  <p>
+                     Postingan Saya 
+                  </p>
+               </a>
+            </li>
+            @endcan
+
+
             <li class="nav-item">
 
                <form method="post" action="/logout">

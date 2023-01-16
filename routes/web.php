@@ -25,11 +25,18 @@ Route::get('/', function () {
 Route::middleware('auth')->group(function(){
 	Route::get('/dashboard', [DashboardController::class, 'index']);
 	Route::post('/logout', [AuthController::class, 'logout']);
+
+	Route::middleware('can:isAdmin')->group(function(){ 
+		Route::resource('category', CategoryController::class)->except('show');
+		Route::get('/category/checkSlug', [CategoryController::class, 'checkSlug']);
+		Route::resource('user', UserController::class);
+	});
 });
 
 Route::middleware('guest')->group(function(){
 	Route::get('/login', [AuthController::class, 'index'])->name('login');
 	Route::get('/register', [RegisterController::class, 'index']);
+	Route::post('/register', [RegisterController::class, 'postRegistration']); 
 
 	Route::get('/forgot-password', [ForgotPasswordController::class, 'index']);
 	Route::post('/forgot-password', [ForgotPasswordController::class, 'submitForgetPasswordForm']);
