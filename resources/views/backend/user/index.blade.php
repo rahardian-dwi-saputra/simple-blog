@@ -4,7 +4,6 @@
 
 <!-- DataTables -->
 <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
 
 <style type="text/css">
    #data-user th, #data-user td:nth-child(1), #data-user td:nth-child(6){

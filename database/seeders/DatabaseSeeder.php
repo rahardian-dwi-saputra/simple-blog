@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Post;
+use App\Models\User;
 
 class DatabaseSeeder extends Seeder
 {
@@ -25,5 +27,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             CategorySeeder::class
         ]);
+        
+        Post::factory(25)->create();
+        User::factory(5)->create();
     }
 }

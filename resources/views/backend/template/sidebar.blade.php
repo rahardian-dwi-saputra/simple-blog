@@ -41,28 +41,25 @@
                   </p>
                </a>
             </li>
+            @endcan
+
             <li class="nav-item">
-               <a href="#" class="nav-link">
+               <a href="/post" class="nav-link">
                   <i class="nav-icon fas fa-edit"></i>
                   <p>
-                     Kelola Postingan
-                     <i class="right fas fa-angle-left"></i>
+                     Postingan Saya 
                   </p>
                </a>
-               <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                     <a href="../../index.html" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Daftar Postingan</p>
-                     </a>
-                  </li>
-                  <li class="nav-item">
-                     <a href="../../index2.html" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Postingan Saya</p>
-                     </a>
-                  </li>
-               </ul>
+            </li>
+
+            @can('isAdmin')
+            <li class="nav-item">
+               <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-list-alt"></i>
+                  <p>
+                     Kelola Daftar Postingan 
+                  </p>
+               </a>
             </li>
             <li class="nav-item">
                <a href="/user" class="nav-link">
@@ -72,26 +69,13 @@
                   </p>
                </a>
             </li>
-
-            @else
-
-            <li class="nav-item">
-               <a href="/category" class="nav-link">
-                  <i class="nav-icon fas fa-edit"></i>
-                  <p>
-                     Postingan Saya 
-                  </p>
-               </a>
-            </li>
             @endcan
 
-
             <li class="nav-item">
-
                <form method="post" action="/logout">
                     @csrf
-                    <button type="submit" class="btn nav-link">
-                        <i class="nav-icon fas fa-on-off"></i> Logout
+                    <button type="submit" class="btn nav-link" style="color:#c2c7d0;">
+                        <i class="nav-icon fas fa-sign-out-alt"></i> <p>Logout</p>
                     </button>
                 </form>
             </li>

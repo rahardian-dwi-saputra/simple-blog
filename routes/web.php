@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\PostController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\RegisterController;
@@ -24,6 +25,8 @@ Route::get('/', function () {
 
 Route::middleware('auth')->group(function(){
 	Route::get('/dashboard', [DashboardController::class, 'index']);
+	Route::get('/post/checkSlug', [PostController::class, 'checkSlug']);
+	Route::resource('post', PostController::class);
 	Route::post('/logout', [AuthController::class, 'logout']);
 
 	Route::middleware('can:isAdmin')->group(function(){ 

@@ -17,7 +17,7 @@ class UserController extends Controller{
      */
     public function index(){
         if (request()->ajax()){
-            return Datatables::of(User::select('id','name','username','email','is_admin')->where('can_delete', 1))
+            return Datatables::of(User::select('id','name','username','email','is_admin','blocked_at')->where('can_delete', 1))
                     ->addIndexColumn()
                     ->addColumn('role', function($row){ 
                         if($row->is_admin == 1)
@@ -28,8 +28,13 @@ class UserController extends Controller{
                     })
                     ->removeColumn('is_admin')
                     ->addColumn('action', function($row){
-     
-                          $actionBtn = '<a href="/user/'.$row->id.'" class="btn btn-primary btn-sm" title="Detail"><i class="fa fa-eye"></i></a> <a href="/user/'.$row->id.'/edit" class="btn btn-warning btn-sm" title="Edit"><i class="fa fa-edit"></i></a> <a href="'.$row->id.'" class="btn btn-danger btn-sm" id="hapus" title="Hapus"><i class="fa fa-trash"></i></a>';
+
+                          $actionBtn = '<a href="#" class="btn btn-secondary btn-sm">Block</a>
+
+
+                          <a href="/user/'.$row->id.'" class="btn btn-primary btn-sm" title="Detail"><i class="fa fa-eye"></i></a> <a href="/user/'.$row->id.'/edit" class="btn btn-warning btn-sm" title="Edit"><i class="fa fa-edit"></i></a> <a href="'.$row->id.'" class="btn btn-danger btn-sm" id="hapus" title="Hapus"><i class="fa fa-trash"></i></a>';
+
+
                         return $actionBtn;
                     })
                     ->rawColumns(['action'])

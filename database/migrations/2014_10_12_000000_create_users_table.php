@@ -23,6 +23,7 @@ return new class extends Migration
             $table->boolean('is_admin');
             $table->boolean('can_delete')->default(1);
             $table->string('password');
+            $table->timestamp('blocked_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

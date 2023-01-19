@@ -1,29 +1,32 @@
 @extends('backend/template/main')
-@section('title','Kategori')
+@section('title','Postingan Saya')
 @section('container')
 
-@if(count($categories) > 0)
+
 <style type="text/css">
-    table th, table td:nth-child(1), table td:nth-child(3){
+    #table-post th, #table-post td:nth-child(1), #table-post td:nth-child(7){
         text-align: center;
+    }
+    #table-post td:nth-child(7){
+        white-space: nowrap;
     }
 </style>
 
 <!-- DataTables -->
 <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
 
-@endif
 <div class="content-wrapper">
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Kategori</h1>
+                    <h1>Postingan Saya</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Kategori</li>
+                        <li class="breadcrumb-item active">Postingan Saya</li>
                     </ol>
                 </div>
             </div>
@@ -36,13 +39,13 @@
 
                     <div class="card card-info">
                         <div class="card-header">
-                            <h3 class="card-title">Daftar Kategori</h3>
+                            <h3 class="card-title">Daftar Postingan Saya</h3>
                         </div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <a href="/category/create" class="btn btn-info">
-                                        <i class="fa fa-plus-circle"></i> Tambah Kategori
+                                    <a href="/post/create" class="btn btn-info">
+                                        <i class="fa fa-plus-circle"></i> Buat Postingan
                                     </a>
                                 </div>
                             </div>
@@ -59,43 +62,26 @@
                                     </div>
                                     @endif
 
-                                    @if(count($categories) > 0)
+                                   
                                     <div class="table-responsive">
-                                        <table class="table table-striped table-bordered table-hover" id="table-category">
+                                        <table class="table table-striped table-bordered table-hover" id="table-post">
                                             <thead>
                                                 <tr>
                                                     <th>No</th>
-                                                    <th>Nama Kategori</th>
+                                                    <th>Judul</th>
+                                                    <th>Kategori</th>
+                                                    <th>Tampilkan</th>
+                                                    <th>Dilihat</th>
+                                                    <th>Tanggal Posting</th>
                                                     <th>Action</th>          
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach($categories as $category)
-                                                <tr>
-                                                    <td>{{ $loop->iteration }}</td>
-                                                    <td>{{ $category->name }}</td>
-                                                    <td>
-                                                        <a href="/category/{{ $category->slug }}/edit" class="btn btn-warning btn-sm" title="Edit">
-                                                            <i class="fa fa-edit"></i>
-                                                        </a>
-                                                        <form method="post" action="/category/{{ $category->slug }}" class="d-inline">
-                                                            @csrf
-                                                            @method('delete')
-                                                            <button class="btn btn-danger btn-sm" type="submit" onclick="return confirm('Apakah anda yakin menghapus data ini?')">
-                                                                <i class="fa fa-trash"></i>
-                                                            </button>
-                                                        </form>
-                                                    </td>
-                                                </tr>
-                                                @endforeach
+                                              
                                             </tbody>
                                         </table>
                                     </div>
-                                    @else
-                                    <div class="text-muted mt-3">
-                                        Data kosong
-                                    </div>
-                                    @endif
+                                    
 
                                 </div>
                             </div>
@@ -107,16 +93,31 @@
         </div>
     </section>
 </div>
-@if(count($categories) > 0)
+
 <script src="{{ asset('assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
 <script>
     $(function (){ 
-        $('#table-category').DataTable({
-            "paging": false,
-            "info": false
+        var table = $('#table-post').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "/post",
+            columns: [
+               {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
+               {data: 'title', name: 'title'},
+               {data: 'category', name: 'category'},
+               {data: 'publish', name: 'publish'},
+               {data: 'view', name: 'view'},
+               {data: 'published_at', name: 'published_at'},
+               {
+                  data: 'action', 
+                  name: 'action', 
+                  orderable: true, 
+                  searchable: true
+               },
+            ]
         });
     });
 </script>
-@endif
+
 @endsection
