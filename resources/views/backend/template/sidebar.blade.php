@@ -54,7 +54,7 @@
 
             @can('isAdmin')
             <li class="nav-item">
-               <a href="#" class="nav-link">
+               <a href="/controlpost" class="nav-link">
                   <i class="nav-icon fas fa-list-alt"></i>
                   <p>
                      Kelola Daftar Postingan 

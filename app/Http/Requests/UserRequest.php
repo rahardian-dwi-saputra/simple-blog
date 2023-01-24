@@ -25,13 +25,16 @@ class UserRequest extends FormRequest
     public function rules(){
         $rules = [
             'name' => 'required|string|max:255',
-            'username' => 'required|unique:users|min:3|alpha_dash'
+            'username' => 'required|unique:users,username|min:3|alpha_dash'
         ];
 
-        if(request()->routeIs('user.store')){
+        if (request()->is('register') || request()->routeIs('user.store')){
+            $rules['email'] = 'required|email|max:255|unique:users,email';
             $rules['password'] = 'required|min:5|confirmed';
+        }
+
+        if(request()->routeIs('user.store')){
             $rules['role'] = 'required|boolean';
-            $rules['email'] = 'required|email|max:255|unique:users';
         }
 
         if(request()->routeIs('user.update')){

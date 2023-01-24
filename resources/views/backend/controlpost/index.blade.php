@@ -1,5 +1,5 @@
 @extends('backend/template/main')
-@section('title','Postingan Saya')
+@section('title','Kelola Daftar Postingan')
 @section('container')
 
 
@@ -21,12 +21,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Postingan Saya</h1>
+                    <h1>Kelola Daftar Postingan</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Postingan Saya</li>
+                        <li class="breadcrumb-item active">Kelola Daftar Postingan</li>
                     </ol>
                 </div>
             </div>
@@ -39,17 +39,10 @@
 
                     <div class="card card-info">
                         <div class="card-header">
-                            <h3 class="card-title">Daftar Postingan Saya</h3>
+                            <h3 class="card-title">Daftar Postingan</h3>
                         </div>
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <a href="/post/create" class="btn btn-info">
-                                        <i class="fa fa-plus-circle"></i> Buat Postingan
-                                    </a>
-                                </div>
-                            </div>
-                            <br>
+                            
                             <div class="row">
                                 <div class="col-lg-12">
 
@@ -69,9 +62,9 @@
                                                 <tr>
                                                     <th>No</th>
                                                     <th>Judul</th>
+                                                    <th>Penulis</th>
                                                     <th>Kategori</th>
                                                     <th>Tampilkan</th>
-                                                    <th>Dilihat</th>
                                                     <th>Tanggal Posting</th>
                                                     <th>Action</th>          
                                                 </tr>
@@ -101,13 +94,13 @@
         var table = $('#table-post').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "/post",
+            ajax: "/controlpost",
             columns: [
                {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
                {data: 'title', name: 'title'},
+               {data: 'penulis', name: 'penulis'},
                {data: 'category', name: 'category'},
                {data: 'publish', name: 'publish'},
-               {data: 'view', name: 'view'},
                {data: 'published_at', name: 'published_at'},
                {
                   data: 'action', 
