@@ -2,7 +2,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
    <!-- Brand Logo -->
    <a href="#" class="brand-link">
-      <img src="{{ asset('assets/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <img src="{{ asset('assets/dist/img/blogicon.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">Simple Blog</span>
    </a>
 
@@ -24,7 +24,7 @@
             <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
             <li class="nav-item">
-               <a href="/dashboard" class="nav-link">
+               <a href="/dashboard" class="nav-link {{ ($active === "Dashboard")? 'active':''}}">
                   <i class="nav-icon fas fa-tachometer-alt"></i>
                   <p>
                      Dashboard 
@@ -34,7 +34,7 @@
 
             @can('isAdmin')
             <li class="nav-item">
-               <a href="/category" class="nav-link">
+               <a href="/category" class="nav-link {{ ($active === "Category")? 'active':''}}">
                   <i class="nav-icon fas fa-th"></i>
                   <p>
                      Kategori 
@@ -44,7 +44,7 @@
             @endcan
 
             <li class="nav-item">
-               <a href="/post" class="nav-link">
+               <a href="/post" class="nav-link {{ ($active === "Postingan Saya")? 'active':''}}">
                   <i class="nav-icon fas fa-edit"></i>
                   <p>
                      Postingan Saya 
@@ -54,7 +54,7 @@
 
             @can('isAdmin')
             <li class="nav-item">
-               <a href="/controlpost" class="nav-link">
+               <a href="/controlpost" class="nav-link {{ ($active === "Control Post")? 'active':''}}">
                   <i class="nav-icon fas fa-list-alt"></i>
                   <p>
                      Kelola Daftar Postingan 
@@ -62,7 +62,7 @@
                </a>
             </li>
             <li class="nav-item">
-               <a href="/user" class="nav-link">
+               <a href="/user" class="nav-link {{ ($active === "User")? 'active':''}}">
                   <i class="nav-icon fas fa-users"></i>
                   <p>
                      User 
@@ -82,7 +82,6 @@
          
          </ul>
       </nav>
-      <!-- /.sidebar-menu -->
+
    </div>
-    <!-- /.sidebar -->
 </aside>

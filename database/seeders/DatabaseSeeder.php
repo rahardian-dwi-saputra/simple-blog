@@ -6,6 +6,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Post;
 use App\Models\User;
+use App\Models\ViewPost;
 
 class DatabaseSeeder extends Seeder
 {
@@ -23,12 +24,12 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        // $this->call([
-        //     UserSeeder::class,
-        //     CategorySeeder::class
-        // ]);
-        
-        Post::factory(25)->create();
-        //User::factory(5)->create();
+        $this->call([
+            UserSeeder::class,
+            CategorySeeder::class
+        ]);
+        User::factory(5)->create();
+        Post::factory(30)->create();
+        ViewPost::factory(100)->create();
     }
 }

@@ -8,8 +8,13 @@ use DataTables;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Support\Facades\View;
 
 class UserController extends Controller{
+
+    public function __construct(){
+        View::share('active', 'User');
+    }
     /**
      * Display a listing of the resource.
      *

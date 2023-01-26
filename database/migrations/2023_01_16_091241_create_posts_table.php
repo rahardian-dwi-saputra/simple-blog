@@ -23,8 +23,7 @@ return new class extends Migration
             $table->text('excerpt');
             $table->text('body');
             $table->boolean('is_publish');
-            $table->integer('view')->default(0);
-            $table->date('published_at')->nullable();
+            $table->date('published_at');
             $table->timestamp('blocked_at')->nullable();
             $table->timestamps();
         });

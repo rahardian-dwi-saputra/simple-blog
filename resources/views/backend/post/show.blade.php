@@ -71,7 +71,7 @@
                                        <strong>Dilihat</strong>
                                     </td>
                                     <td>:</td>
-                                    <td>{{ $data->view }}</td> 
+                                    <td>{{ $view }}</td> 
                                  </tr>
                                  <tr>
                                     <td>
@@ -91,7 +91,7 @@
                                        <strong>Tanggal Posting</strong>
                                     </td>
                                     <td>:</td>
-                                    <td>{{ date('d-m-Y', strtotime($data->published_at)) }}</td> 
+                                    <td>{{ $data->published_at }}</td> 
                                  </tr>
                                  <tr>
                                     <td>

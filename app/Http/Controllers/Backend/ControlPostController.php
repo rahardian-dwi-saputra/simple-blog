@@ -6,9 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use DataTables;
+use Illuminate\Support\Facades\View;
 
 class ControlPostController extends Controller{
     
+    public function __construct(){
+        View::share('active', 'Control Post');
+    }
     public function index(){
     	if (request()->ajax()){
     		$data = Post::select('title','posts.slug','users.name as penulis','categories.name as category','is_publish','published_at')->join('categories', 'categories.id', '=', 'posts.category_id')->join('users', 'users.id', '=', 'posts.user_id')->orderBy('published_at','desc');

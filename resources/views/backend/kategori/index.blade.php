@@ -59,6 +59,15 @@
                                     </div>
                                     @endif
 
+                                    @if(session()->has('error'))
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ session('error') }}
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    @endif
+
                                     @if(count($categories) > 0)
                                     <div class="table-responsive">
                                         <table class="table table-striped table-bordered table-hover" id="table-category">
@@ -116,6 +125,13 @@
             "paging": false,
             "info": false
         });
+
+        var modalConfirm = function(callback){ 
+            $("#btn-confirm").on("click", function(){
+    $("#mi-modal").modal('show');
+  });
+
+        };
     });
 </script>
 @endif

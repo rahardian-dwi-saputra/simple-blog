@@ -5,15 +5,20 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Post;
-use App\Models\Category;
+use Illuminate\Support\Facades\DB;
 use DataTables;
 use \Cviebrock\EloquentSluggable\Services\SlugService;
 use App\Http\Requests\PostRequest;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\View;
 
 class PostController extends Controller
 {
+    public function __construct(){
+        View::share('active', 'Postingan Saya');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -22,13 +27,44 @@ class PostController extends Controller
     public function index(){
         if (request()->ajax()){
             
-            $data = Post::select('title','posts.slug','categories.name as category','is_publish','view','published_at')->join('categories', 'categories.id', '=', 'posts.category_id')->where('user_id', auth()->user()->id)->orderBy('published_at','desc');
+            $data = Post::select(
+                            'title',
+                            'posts.slug',
+                            'categories.name as category',
+                            'is_publish', 
+                            DB::raw('count(view_posts.post_id) as view'),
+                            'published_at'
+                        )
+                        ->join('categories', 'categories.id', '=', 'posts.category_id')
+                        ->leftJoin('view_posts', 'posts.id', '=', 'view_posts.post_id')
+                        ->where('user_id', auth()->user()->id);
+
+            if(!empty(request()->category)){
+                $data = $data->where('categories.id', request()->category);
+            }
+
+            if(!empty(request()->tampil)){
+                if(request()->tampil == 'Ya')
+                    $data = $data->where('posts.is_publish', 1);
+                else
+                    $data = $data->where('posts.is_publish', 0);
+            }
+
+            if(!empty(request()->tanggal_awal)){
+                $tanggal_awal = date('Y-m-d', strtotime(request()->tanggal_awal));
+                $data = $data->whereDate('published_at','>=', $tanggal_awal);
+            }
+
+            if(!empty(request()->tanggal_akhir)){
+                $tanggal_akhir = date('Y-m-d', strtotime(request()->tanggal_akhir));
+                $data = $data->whereDate('published_at','<=', $tanggal_akhir);
+            }
+
+            $data = $data->groupBy('posts.id')
+                        ->orderBy('published_at','desc');
 
             return DataTables::eloquent($data)
                 ->addIndexColumn()
-                ->editColumn('published_at', function($row){
-                    return date('d-m-Y', strtotime($row->published_at));
-                })
                 ->addColumn('publish', function($row){ 
                         if($row->is_publish == 1)
                             return 'Ya';
@@ -45,7 +81,9 @@ class PostController extends Controller
                 ->rawColumns(['action'])
                 ->toJson();
         }
-        return view('backend.post.index');
+        return view('backend.post.index', [
+            'categories' => DB::table('categories')->select('id','name')->get()
+        ]);
     }
 
     /**
@@ -56,14 +94,13 @@ class PostController extends Controller
     public function create(){
         return view('backend.post.create', [
             'title' => 'Buat Postingan Baru',
-            'categories' => Category::all()
+            'categories' => DB::table('categories')->select('id','name')->get()
         ]);
     }
 
     public function checkSlug(Request $request){
         $slug = SlugService::createSlug(Post::class, 'slug', $request->title);
         return response()->json(['slug' => $slug]);
-        
     }
 
     /**
@@ -79,7 +116,7 @@ class PostController extends Controller
             'user_id' => auth()->user()->id,
             'excerpt' => Str::limit(strip_tags($request->body), 200),
             'is_publish' => 0,
-            'published_at' => date('Y-m-d', strtotime($request->tanggal_posting))
+            'published_at' => $request->tanggal_posting
         ];
 
         if($request->has('publish')){
@@ -103,7 +140,14 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Post $post){
-        return view('backend.post.show', ['data' => $post]);
+        if (!Gate::allows('access-post', $post)) {
+            abort(403);
+        }
+
+        return view('backend.post.show', [
+            'data' => $post,
+            'view' => DB::table('view_posts')->where('post_id',$post->id)->count(),
+        ]);
     }
 
     /**
@@ -113,11 +157,14 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Post $post){
+        if (!Gate::allows('access-post', $post)) {
+            abort(403);
+        }
+
         return view('backend.post.edit', [
             'title' => 'Edit Postingan',
             'data' => $post,
-            'categories' => Category::all(),
-            'tanggal_posting' => date('d-m-Y', strtotime($post->published_at)),
+            'categories' => DB::table('categories')->select('id','name')->get()
         ]);
     }
 
@@ -135,7 +182,7 @@ class PostController extends Controller
             'user_id' => auth()->user()->id,
             'excerpt' => Str::limit(strip_tags($request->body), 200),
             'is_publish' => 0,
-            'published_at' => date('Y-m-d', strtotime($request->tanggal_posting))
+            'published_at' => $request->tanggal_posting
         ];
 
         if($request->has('publish')){
@@ -162,6 +209,13 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Post $post){
+        if (!Gate::allows('access-post', $post)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Anda tidak punya hak pada postingan ini',
+            ]);
+        }
+
         if($post->image){
             Storage::delete($post->image);
         }

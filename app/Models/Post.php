@@ -13,8 +13,7 @@ class Post extends Model
     use HasFactory, Sluggable;
     
     protected $guarded = ['id'];
-    protected $with = ['category','user'];
-
+    
     public function getRouteKeyName(){
         return 'slug';
     }
@@ -29,7 +28,7 @@ class Post extends Model
     protected function PublishedAt(): Attribute{
         return Attribute::make(
             get: fn ($value) => Carbon::parse($value)->format('d-m-Y'),
-            //set: fn ($value) => Carbon::parse($value)->format('Y-m-d'),
+            set: fn ($value) => Carbon::parse($value)->format('Y-m-d'),
         );
     }
     public function category(){
@@ -37,5 +36,8 @@ class Post extends Model
     }
     public function user(){
     	return $this->belongsTo(User::class);
+    }
+    public function view_posts(){
+        return $this->hasMany(ViewPost::class,'post_id');
     }
 }

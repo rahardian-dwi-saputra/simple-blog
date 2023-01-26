@@ -5,9 +5,15 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Models\Post;
 use \Cviebrock\EloquentSluggable\Services\SlugService;
+use Illuminate\Support\Facades\View;
 
 class CategoryController extends Controller{
+
+    public function __construct(){
+        View::share('active', 'Category');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -78,7 +84,7 @@ class CategoryController extends Controller{
 
         $validated = $request->validate($rules);
         Category::where('id', $category->id)->update($validated);
-        return redirect('/category')->with('success','Data Kategori Baru Berhasil Diedit');
+        return redirect('/category')->with('success','Data Kategori Berhasil Diedit');
     }
 
     /**
@@ -88,7 +94,12 @@ class CategoryController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function destroy(Category $category){
-        Category::destroy($category->id);
-        return redirect('/category')->with('success','Data Kategori Baru Berhasil Dihapus');
+        $cek = Post::where('category_id', $category->id)->count();
+        if($cek == 0){
+            Category::destroy($category->id);
+            return redirect('/category')->with('success','Data kategori berhasil dihapus');
+        }else{
+            return redirect('/category')->with('error','Data kategori tidak dapat dihapus karena sedang digunakan');
+        }
     }
 }

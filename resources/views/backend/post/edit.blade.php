@@ -143,7 +143,7 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                                     </div>
-                                                    <input name="tanggal_posting" id="tanggal_posting" type="text" class="form-control @error('tanggal_posting') is-invalid @enderror" placeholder="dd-mm-yyyy" autocomplete="off" value="{{ old('tanggal_posting', $tanggal_posting) }}">
+                                                    <input name="tanggal_posting" id="tanggal_posting" type="text" class="form-control @error('tanggal_posting') is-invalid @enderror" placeholder="dd-mm-yyyy" autocomplete="off" value="{{ old('tanggal_posting', $data->published_at) }}">
                                                     @error('tanggal_posting')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}

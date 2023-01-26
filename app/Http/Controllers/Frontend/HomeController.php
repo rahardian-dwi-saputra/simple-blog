@@ -9,8 +9,15 @@ use App\Models\Post;
 class HomeController extends Controller{
     
     public function index(){
+    	$posts = Post::with(['category','user:id,name'])
+    				->withCount('view_posts as view')
+    				->where('is_publish', 1)
+    				->orderBy('published_at','desc')
+    				->limit(6)
+    				->get();
+    	
     	return view('frontend.home', [
-    		'posts' => Post::where('is_publish', 1)->orderBy('published_at','desc')->limit(6)->get(),
+    		'posts' => $posts,
     		'active' => 'Home'
     	]); 
     }

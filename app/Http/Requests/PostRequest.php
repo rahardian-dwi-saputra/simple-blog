@@ -12,9 +12,11 @@ class PostRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
-    {
-        return true;
+    public function authorize(){
+        if(request()->routeIs('post.update')){
+            return $this->user()->can('access-post', $this->post);
+        }else
+            return true;
     }
 
     /**

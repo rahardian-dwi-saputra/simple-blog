@@ -7,14 +7,14 @@
     @if($posts->count())
     <div class="row">
         <div class="col-md-8">
-
+            <h1>Semua Postingan</h1>
             <div class="row">
                 <div class="col-md-12">
                     @foreach($posts as $post)
 
                     <h2 class="mt-3">{{ $post->title }}</h2>
                     <p>
-                        <i class="fas fa-calendar"></i> {{ $post->published_at }} | <i class="fas fa-user"></i> <a href="#" class="text-decoration-none">{{ $post->user->name }}</a> | <i class="fas fa-eye"></i> 0
+                        <i class="fas fa-calendar"></i> {{ $post->published_at }} | <i class="fas fa-user"></i> <a href="#" class="text-decoration-none">{{ $post->user->name }}</a> | <i class="fas fa-eye"></i> {{ $post->view }}
                                        
                     </p>
 
@@ -25,9 +25,9 @@
                     </div>
 
                     @if($post->image)
-                    <img src="{{ asset('storage/'.$post->image) }}" class="img-fluid" alt="...">
+                    <img src="{{ asset('storage/'.$post->image) }}" width="300" height="1200" class="img-fluid" alt="{{ $post->title }}">
                     @else
-                    <img src="https://source.unsplash.com/1200x400/?nature" class="img-fluid" alt="...">
+                    <img src="https://source.unsplash.com/1200x400/?nature" class="img-fluid" alt="{{ $post->title }}">
                     @endif
 
                     <article class="my-3">

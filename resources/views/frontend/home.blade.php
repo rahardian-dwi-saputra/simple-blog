@@ -34,9 +34,9 @@
                                 </div>
 
                                 @if($post->image)
-                                <img src="{{ asset('storage/'.$post->image) }}" class="d-block w-100" alt="...">
+                                <img src="{{ asset('storage/'.$post->image) }}" class="d-block w-100" width="800" height="400" alt="{{ $post->title }}">
                                 @else
-                                <img src="https://source.unsplash.com/1200x600/?nature" class="d-block w-100" alt="...">
+                                <img src="https://source.unsplash.com/800x400/?nature" class="d-block w-100" alt="{{ $post->title }}">
                                 @endif
 
                                 <div class="carousel-caption d-none d-md-block">
@@ -44,12 +44,12 @@
                                     <p>
                                         <small>
                                             <i class="fas fa-calendar"></i> 
-                                            {{ $post->published_at }} | <i class="fas fa-user"></i> <a href="#" class="text-decoration-none text-white">{{ $post->user->name }}</a>
+                                            {{ $post->published_at }} | <i class="fas fa-user"></i> <a href="#" class="text-decoration-none text-white">{{ $post->user->name }}</a> | <i class="fas fa-eye"></i> {{ $post->view }}
                                             
                                         </small>
                                     </p>
                                     <p>{{ $post->excerpt }}</p>
-                                    <a href="#" class="text-decoration-none btn btn-primary">Read More</a>
+                                    <a href="/blog/detail/{{ $post->slug }}" class="text-decoration-none btn btn-primary">Read More</a>
                                 </div>
 
                             </div>
@@ -80,23 +80,22 @@
                         </div>
 
                         @if($post->image)
-                        <img src="{{ asset('storage/'.$post->image) }}" class="card-img-top" alt="...">
+                        <img src="{{ asset('storage/'.$post->image) }}" class="card-img-top" width="800" height="600" alt="{{ $post->title }}">
                         @else
-                        <img src="https://source.unsplash.com/1200x600/?nature" class="card-img-top" alt="...">
+                        <img src="https://source.unsplash.com/800x600/?nature" class="card-img-top" alt="{{ $post->title }}">
                         @endif
                         <div class="card-body">
                             <h5 class="card-title text-center">{{ $post->title }}</h5>
                             <p>
                                 <small class="text-muted">
-                                    <i class="fas fa-calendar"></i> {{ $post->published_at }} | <i class="fas fa-user"></i> <a href="#" class="text-decoration-none">{{ $post->user->name }}</a> | <i class="fas fa-eye"></i> 0 
+                                    <i class="fas fa-calendar"></i> {{ $post->published_at }} | <i class="fas fa-user"></i> <a href="#" class="text-decoration-none">{{ $post->user->name }}</a> | <i class="fas fa-eye"></i> {{ $post->view }} 
                                 </small>
                             </p>
                             <p class="card-text text-justify">
                                 {{ $post->excerpt }}
                             </p>
-                            <a href="/home/detail/{{ $post->slug }}" class="btn btn-primary">Read more</a>
+                            <a href="/blog/detail/{{ $post->slug }}" class="btn btn-primary">Read more</a>
                         </div>
-
 
                     </div>
                 </div>
