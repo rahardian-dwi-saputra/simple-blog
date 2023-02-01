@@ -61,6 +61,9 @@
                   </p>
                </a>
             </li>
+            @endcan
+
+            @can('SuperUser')
             <li class="nav-item">
                <a href="/user" class="nav-link {{ ($active === "User")? 'active':''}}">
                   <i class="nav-icon fas fa-users"></i>
@@ -70,6 +73,7 @@
                </a>
             </li>
             @endcan
+            
 
             <li class="nav-item">
                <form method="post" action="/logout">

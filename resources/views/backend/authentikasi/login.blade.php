@@ -5,6 +5,8 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <title>Login | Simple Blog</title>
 
+      <link rel="icon" href="{{ asset('assets/dist/img/blogicon.png') }}">
+
       <!-- Google Font: Source Sans Pro -->
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
       <!-- Font Awesome -->
@@ -17,7 +19,6 @@
    <body class="hold-transition login-page">
       <div class="login-box">
 
-         <!-- /.login-logo -->
          <div class="card card-outline card-primary">
             <div class="card-header text-center">
                <a href="#" class="h1"><b>Simple</b> Blog</a>
@@ -45,21 +46,31 @@
 
                <form action="/login" method="post">
                   @csrf
-                  <div class="input-group mb-3">
-                     <input type="text" class="form-control" name="login" id="login" placeholder="Username or Email" autocomplete="off" autofocus required>
+                  <div class="input-group mb-3 has-validation">
+                     <input type="text" class="form-control @error('login') is-invalid @enderror" name="login" id="login" placeholder="Username or Email" autocomplete="off" autofocus required>
                      <div class="input-group-append">
                         <div class="input-group-text">
                            <span class="fas fa-user"></span>
                         </div>
                      </div>
+                     @error('login')
+                     <div class="invalid-feedback">
+                        {{ $message }}
+                     </div>
+                     @enderror
                   </div>
-                  <div class="input-group mb-3">
-                     <input type="password" class="form-control" name="password" id="password" placeholder="Password" autocomplete="off" required>
+                  <div class="input-group mb-3 has-validation">
+                     <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" id="password" placeholder="Password" autocomplete="off" required>
                      <div class="input-group-append">
                         <div class="input-group-text">
                            <span class="fas fa-lock"></span>
                         </div>
                      </div>
+                     @error('password')
+                     <div class="invalid-feedback">
+                        {{ $message }}
+                     </div>
+                     @enderror
                   </div>
                   <div class="row">
                      <div class="col-8">
@@ -80,10 +91,10 @@
                   <a href="/forgot-password">I forgot my password</a>
                </p>
                <p class="mb-0">
-                  <a href="/register" class="text-center">Register a new membership</a>
+                  <a href="/register" class="text-center">Sign Up</a>
                </p>
             </div>
-         </div><!-- /.card -->
+         </div>
 
       </div>
 

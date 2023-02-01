@@ -9,9 +9,9 @@ use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\RegisterController;
 use App\Http\Controllers\Backend\ForgotPasswordController;
+use App\Http\Controllers\Backend\EmailVerificationController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\BlogController;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,13 +31,13 @@ Route::get('/', function () {
 */
 Route::get('/', [HomeController::class, 'index']);
 
-Route::controller(BlogController::class)->group(function () {
+Route::controller(BlogController::class)->group(function(){
     Route::get('/blog', 'index');
     Route::get('/blog/detail/{post:slug}', 'detail_post');
     Route::get('/blog/category', 'categories');
 });
 
-Route::middleware(['auth'])->group(function(){
+Route::middleware(['auth','verified'])->group(function(){
 	Route::get('/dashboard', [DashboardController::class, 'index']);
 	Route::get('/post/checkSlug', [PostController::class, 'checkSlug']);
 	Route::resource('post', PostController::class);
@@ -47,32 +47,36 @@ Route::middleware(['auth'])->group(function(){
 		Route::resource('category', CategoryController::class)->except('show');
 		Route::get('/category/checkSlug', [CategoryController::class, 'checkSlug']);
 		Route::get('/controlpost', [ControlPostController::class, 'index']);
+	});
+
+	Route::middleware('can:SuperUser')->group(function(){ 
 		Route::resource('user', UserController::class);
+	});
+});
+
+Route::middleware('auth')->group(function(){
+	Route::controller(EmailVerificationController::class)->group(function(){ 
+		Route::get('/email/verify/{id}/{token}', 'verifyUser')->name('verification.verify');
+		Route::get('/email/verify', 'index')->name('verification.notice');
+		Route::post('/email/verification-notification', 'send_verification')->middleware('throttle:6,1')->name('verification.send');
 	});
 });
 
 Route::middleware('guest')->group(function(){
 	Route::get('/login', [AuthController::class, 'index'])->name('login');
-	Route::get('/register', [RegisterController::class, 'index']);
-	Route::post('/register', [RegisterController::class, 'postRegistration']); 
 
-	Route::get('/forgot-password', [ForgotPasswordController::class, 'index']);
-	Route::post('/forgot-password', [ForgotPasswordController::class, 'submitForgetPasswordForm']);
-	Route::get('/reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
-	Route::post('/reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm']);
+	Route::controller(RegisterController::class)->group(function(){ 
+		Route::get('/register', 'index');
+		Route::post('/register', 'postRegistration');
+	});
+
+	Route::controller(ForgotPasswordController::class)->group(function(){
+    	Route::get('/forgot-password', 'index');
+    	Route::post('/forgot-password', 'submitForgetPasswordForm');
+    	Route::get('/reset-password/{token}', 'showResetPasswordForm')->name('reset.password.get');
+    	Route::post('/reset-password', 'submitResetPasswordForm');
+	});
+
 });
 
 Route::post('/login', [AuthController::class, 'authenticate']);
-
-
-
-
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    $request->fulfill();
- 
-    return redirect('/dashboard');
-})->middleware(['auth', 'signed'])->name('verification.verify');
-
-Route::get('/email/verify', function () {
-    return view('backend.authentikasi.verifyemail');
-})->middleware('auth')->name('verification.notice');

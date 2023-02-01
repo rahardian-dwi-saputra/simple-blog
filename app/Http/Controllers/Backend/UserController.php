@@ -9,6 +9,10 @@ use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\RegisterbyAdmin;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller{
 
@@ -22,7 +26,38 @@ class UserController extends Controller{
      */
     public function index(){
         if (request()->ajax()){
-            return Datatables::of(User::select('id','name','username','email','is_admin','blocked_at')->where('can_delete', 1))
+
+            $user = User::select(
+                            'id',
+                            'name',
+                            'username',
+                            'email',
+                            'is_admin',
+                            'blocked_at')
+                        ->where('can_delete', 1);
+
+            if(!empty(request()->role)){
+                if(request()->role == 'Admin')
+                    $user = $user->where('is_admin', 1);
+                elseif(request()->role == 'User')
+                    $user = $user->where('is_admin', 0);
+            }
+
+            if(!empty(request()->verifikasi)){
+                if(request()->verifikasi == 'Verified')
+                    $user = $user->whereNotNull('email_verified_at');
+                elseif(request()->verifikasi == 'Unverified')
+                    $user = $user->whereNull('email_verified_at');
+            }
+
+            if(!empty(request()->status)){
+                if(request()->status == 'Banned')
+                    $user = $user->whereNotNull('blocked_at');
+                elseif(request()->status == 'Aktif')
+                    $user = $user->whereNull('blocked_at');
+            }
+
+            return Datatables::of($user)
                     ->addIndexColumn()
                     ->addColumn('role', function($row){ 
                         if($row->is_admin == 1)
@@ -69,7 +104,18 @@ class UserController extends Controller{
             'password' => Hash::make($request->password)
         ]);
 
-        User::create($validatedData->all());
+        $user = User::create($validatedData->all());
+
+        if($user != null){
+            $data = [
+                'name' => $user->name,
+                'username' => $user->username,
+                'password' => $request->password
+            ];
+
+            Mail::to($user->email)->send(new RegisterbyAdmin($data));
+        }
+
         return redirect('/user')->with('success','Data User Baru Berhasil Ditambahkan');
     }
 
@@ -117,6 +163,16 @@ class UserController extends Controller{
      */
     public function destroy(User $user){
         if($user->can_delete == 1){
+            $posts = DB::table('posts')->where('user_id',$user->id)->get();
+
+            foreach ($posts as $post) {
+                if($post->image){
+                    Storage::delete($post->image);
+                }
+            }
+
+            DB::table('posts')->where('user_id',$user->id)->delete();
+
             $user->tokens()->delete();
             $delete = User::destroy($user->id);
             if($delete){

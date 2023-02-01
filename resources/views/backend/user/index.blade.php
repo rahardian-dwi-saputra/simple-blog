@@ -49,6 +49,60 @@
                         </div>
                      </div>
                      <br>
+                     <br>
+                     <div class="row">
+                        <div class="col-md-6">
+                           <form id="table-filter" class="form-horizontal">
+
+                              <div class="form-group row">
+                                 <label for="filter_role" class="col-sm-3 col-form-label">
+                                    Role User
+                                 </label>
+                                 <div class="col-sm-5">
+                                    <select class="form-control" id="filter_role">
+                                       <option value="">Semua</option>
+                                       <option value="Admin">Admin</option>
+                                       <option value="User">User</option>                  
+                                    </select>
+                                 </div>
+                              </div>
+                              <div class="form-group row">
+                                 <label for="filter_verifikasi" class="col-sm-3 col-form-label">
+                                    Verifikasi Email
+                                 </label>
+                                 <div class="col-sm-5">
+                                    <select class="form-control" id="filter_verifikasi">
+                                       <option value="">Semua Status</option>
+                                       <option value="Verified">Sudah Verifikasi</option>
+                                       <option value="Unverified">Belum Verifikasi</option>                  
+                                    </select>
+                                 </div>
+                              </div>
+                              <div class="form-group row">
+                                 <label for="filter_status" class="col-sm-3 col-form-label">
+                                    Status
+                                 </label>
+                                 <div class="col-sm-5">
+                                    <select class="form-control" id="filter_status">
+                                       <option value="">Semua</option>
+                                       <option value="Aktif">Aktif</option>
+                                       <option value="Banned">Banned</option>                  
+                                    </select>
+                                 </div>
+                              </div>
+
+                              <button type="submit" class="btn btn-success">
+                                 Filter
+                              </button>&nbsp;
+                              <button type="reset" class="btn btn-default">
+                                 Reset
+                              </button>
+
+                           </form>
+                        </div>
+                     </div>
+                     <br>
+                     <br>
                      <div class="row">
                         <div class="col-lg-12">
 
@@ -128,7 +182,14 @@
       var table = $('#data-user').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "/user",
+            ajax: {
+               url: "/user",
+               data: function (d) {
+                  d.role = $('#filter_role').val(),
+                  d.verifikasi = $('#filter_verifikasi').val(),
+                  d.status = $('#filter_status').val()
+               }
+            },
             columns: [
                {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
                {data: 'name', name: 'name'},
@@ -142,6 +203,18 @@
                   searchable: true
                },
             ]
+      });
+
+      $('#table-filter').submit(function(e){
+         e.preventDefault();
+         table.draw();
+      });
+
+      $('button[type=reset]').click(function(){ 
+         $("#filter_role").val('').trigger('change');
+         $("#filter_verifikasi").val('').trigger('change');
+         $("#filter_status").val('').trigger('change');
+         table.draw();
       });
 
       $(document).on('click', 'a#hapus', function(e){ 

@@ -5,6 +5,8 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <title>Password Reset | Simple Blog</title>
 
+      <link rel="icon" href="{{ asset('assets/dist/img/blogicon.png') }}">
+
       <!-- Google Font: Source Sans Pro -->
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
       <!-- Font Awesome -->
@@ -39,58 +41,48 @@
 
                   <input type="hidden" name="token" value="{{ $token }}">
 
-                  @error('email')
-                     <div class="input-group">
-                  @else
-                     <div class="input-group mb-3">
-                  @enderror
-                     <input type="email" name="email" id="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email" value="{{ old('email') }}" autocomplete="off">
+                  <div class="input-group mb-3 has-validation">
+                     <input type="email" name="email" id="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email" value="{{ old('email') }}" autocomplete="off" required>
                      <div class="input-group-append">
                         <div class="input-group-text">
                            <span class="fas fa-envelope"></span>
                         </div>
                      </div>
+                     @error('email')
+                     <div class="invalid-feedback">
+                        {{ $message }}
+                     </div>
+                     @enderror
                   </div>
-                  @error('email')
-                  <small class="form-text text-danger">{{ $message }}</small>
-                  <div class="mb-3"></div>
-                  @enderror
-
-                  @error('password')
-                     <div class="input-group">
-                  @else
-                     <div class="input-group mb-3">
-                  @enderror
-                     <input type="password" name="password" id="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" value="{{ old('password') }}" autocomplete="off">
+                 
+                  <div class="input-group mb-3 has-validation"> 
+                     <input type="password" name="password" id="password" class="form-control @error('password') is-invalid @enderror" placeholder="New Password" value="{{ old('password') }}" autocomplete="off" required>
                      <div class="input-group-append">
                         <div class="input-group-text">
                            <span class="fas fa-lock"></span>
                         </div>
                      </div>
+                     @error('password')
+                     <div class="invalid-feedback">
+                        {{ $message }}
+                     </div>
+                     @enderror
                   </div>
-                  @error('password')
-                  <small class="form-text text-danger">{{ $message }}</small>
-                  <div class="mb-3"></div>
-                  @enderror
-
-
-                  @error('password_confirmation')
-                     <div class="input-group">
-                  @else
-                     <div class="input-group mb-3">
-                  @enderror
-                     <input type="password" name="password_confirmation" id="password_confirmation" class="form-control @error('password_confirmation') is-invalid @enderror" placeholder="Confirm Password" value="{{ old('password_confirmation') }}" autocomplete="off">
+                 
+                  <div class="input-group mb-3 has-validation">
+                     <input type="password" name="password_confirmation" id="password_confirmation" class="form-control @error('password_confirmation') is-invalid @enderror" placeholder="Confirm New Password" value="{{ old('password_confirmation') }}" autocomplete="off" required>
                      <div class="input-group-append">
                         <div class="input-group-text">
                            <span class="fas fa-lock"></span>
                         </div>
                      </div>
+                     @error('password_confirmation')
+                     <div class="invalid-feedback">
+                        {{ $message }}
+                     </div>
+                     @enderror
                   </div>
-                  @error('password_confirmation')
-                  <small class="form-text text-danger">{{ $message }}</small>
-                  <div class="mb-3"></div>
-                  @enderror
-
+                 
                   <div class="row">
                      <div class="col-12">
                         <button type="submit" class="btn btn-primary btn-block">Change password</button>
@@ -100,7 +92,6 @@
             </div>
          </div>
       </div>
-
 
       <!-- jQuery -->
       <script src="{{ asset('assets/plugins/jquery/jquery.min.js') }}"></script>

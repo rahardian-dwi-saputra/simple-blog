@@ -219,6 +219,8 @@ class PostController extends Controller
         if($post->image){
             Storage::delete($post->image);
         }
+
+        DB::table('view_posts')->where(['post_id'=> $post->id])->delete();
         $delete = Post::destroy($post->id);
 
         if($delete){

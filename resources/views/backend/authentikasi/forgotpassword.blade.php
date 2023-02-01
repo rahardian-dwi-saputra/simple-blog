@@ -5,6 +5,8 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <title>Forgot Password | Simple Blog</title>
 
+      <link rel="icon" href="{{ asset('assets/dist/img/blogicon.png') }}">
+
       <!-- Google Font: Source Sans Pro -->
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
       <!-- Font Awesome -->
@@ -36,37 +38,31 @@
 
                <form action="/forgot-password" method="post">
                   @csrf
-
-                  @error('email')
-                     <div class="input-group">
-                  @else
-                     <div class="input-group mb-3">
-                  @enderror
-                     <input type="email" name="email" id="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" placeholder="Email" autocomplete="off">
+                 
+                  <div class="input-group mb-3 has-validation">
+                     <input type="email" name="email" id="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" placeholder="Email" autocomplete="off" required>
                      <div class="input-group-append">
                         <div class="input-group-text">
                            <span class="fas fa-envelope"></span>
                         </div>
                      </div>
+                     @error('email')
+                     <div class="invalid-feedback">
+                        {{ $message }}
+                     </div>
+                     @enderror
                   </div>
-                  @error('email')
-                  <small class="form-text text-danger">{{ $message }}</small>
-                  <div class="mb-3"></div>
-                  @enderror
-
+                  
                   <div class="row">
                      <div class="col-12">
                         <button type="submit" class="btn btn-primary btn-block">Request new password</button>
                      </div>
-                     <!-- /.col -->
                   </div>
                </form>
               
             </div>
-            <!-- /.login-card-body -->
          </div>
       </div>
-      <!-- /.login-box -->
 
       <!-- jQuery -->
       <script src="{{ asset('assets/plugins/jquery/jquery.min.js') }}"></script>

@@ -3,7 +3,9 @@
    <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>Forgot Password | Simple Blog</title>
+      <title>Verify Email | Simple Blog</title>
+
+      <link rel="icon" href="{{ asset('assets/dist/img/blogicon.png') }}">
 
       <!-- Google Font: Source Sans Pro -->
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -19,12 +21,9 @@
       <div class="login-box">
          <div class="card card-outline card-primary">
             <div class="card-header text-center">
-               
                <h3>Verify Your Email Address</h3>
             </div>
             <div class="card-body">
-
-               <p class="login-box-msg">You forgot your password? Here you can easily retrieve a new password.</p>
 
                @if(session()->has('message'))
                <div class="alert alert-success alert-dismissible" role="alert">
@@ -35,39 +34,20 @@
                </div>
                @endif
 
-               <form action="/forgot-password" method="post">
+               <p class="login-box-msg">Before proceeding, please check your email for a verification link.</p>
+
+               <form action="{{ route('verification.send') }}" method="post">
                   @csrf
-
-                  @error('email')
-                     <div class="input-group">
-                  @else
-                     <div class="input-group mb-3">
-                  @enderror
-                     <input type="email" name="email" id="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" placeholder="Email" autocomplete="off">
-                     <div class="input-group-append">
-                        <div class="input-group-text">
-                           <span class="fas fa-envelope"></span>
-                        </div>
-                     </div>
-                  </div>
-                  @error('email')
-                  <small class="form-text text-danger">{{ $message }}</small>
-                  <div class="mb-3"></div>
-                  @enderror
-
                   <div class="row">
                      <div class="col-12">
-                        <button type="submit" class="btn btn-primary btn-block">Request new password</button>
+                        <button type="submit" class="btn btn-primary btn-block">Resend Email Verification</button>
                      </div>
-                     <!-- /.col -->
                   </div>
                </form>
-              
+
             </div>
-            <!-- /.login-card-body -->
          </div>
       </div>
-      <!-- /.login-box -->
 
       <!-- jQuery -->
       <script src="{{ asset('assets/plugins/jquery/jquery.min.js') }}"></script>

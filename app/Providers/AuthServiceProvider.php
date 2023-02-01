@@ -31,6 +31,10 @@ class AuthServiceProvider extends ServiceProvider
             return $user->is_admin ? Response::allow() : Response::deny('You must be an administrator.');
         });
 
+        Gate::define('SuperUser', function($user) { 
+            return $user->is_admin && (!$user->can_delete);
+        });
+
         Gate::define('access-post', function (User $user, Post $post) {
             return $user->id === $post->user_id;
         });

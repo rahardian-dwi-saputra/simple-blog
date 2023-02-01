@@ -61,6 +61,19 @@
                                  </tr>
                                  <tr>
                                     <td>
+                                       <strong>Verifikasi Email</strong>
+                                    </td>
+                                    <td>:</td>
+                                    <td>
+                                       @if($data->email_verified_at == null)
+                                          Belum diverifikasi
+                                       @else
+                                          {{ date('d-m-Y H:i:s', strtotime($data->email_verified_at)) }}
+                                       @endif
+                                    </td> 
+                                 </tr>
+                                 <tr>
+                                    <td>
                                        <strong>Role</strong>
                                     </td>
                                     <td>:</td>

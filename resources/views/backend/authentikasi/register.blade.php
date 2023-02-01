@@ -5,6 +5,8 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <title>Register | Simple Blog</title>
 
+      <link rel="icon" href="{{ asset('assets/dist/img/blogicon.png') }}">
+
       <!-- Google Font: Source Sans Pro -->
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
       <!-- Font Awesome -->
@@ -21,7 +23,16 @@
                <a href="#" class="h1"><b>Simple</b> Blog</a>
             </div>
             <div class="card-body">
-               <p class="login-box-msg">Register a new membership</p>
+               <p class="login-box-msg">Buat Akun Baru</p>
+
+               @if(session()->has('error'))
+               <div class="alert alert-danger alert-dismissible" role="alert">
+                  {{ session('error') }}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                  </button>
+               </div>
+               @endif
 
                <form action="/register" method="post">
                   @csrf
@@ -95,21 +106,19 @@
                            </label>
                         </div>
                      </div>
-                     <!-- /.col -->
+                     
                      <div class="col-4">
                         <button type="submit" class="btn btn-primary btn-block">Register</button>
                      </div>
-                     <!-- /.col -->
+                    
                   </div>
 
                </form>
 
-               <a href="/login" class="text-center">I already have a membership</a>
+               <a href="/login" class="text-center">Saya sudah punya akun</a>
             </div>
-            <!-- /.form-box -->
-         </div><!-- /.card -->
+         </div>
       </div>
-      <!-- /.register-box -->
 
       <!-- jQuery -->
       <script src="{{ asset('assets/plugins/jquery/jquery.min.js') }}"></script>
