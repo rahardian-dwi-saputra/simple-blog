@@ -69,7 +69,7 @@ class UserController extends Controller{
                     ->removeColumn('is_admin')
                     ->addColumn('action', function($row){
 
-                          $actionBtn = '<a href="#" class="btn btn-secondary btn-sm">Block</a>
+                          $actionBtn = '<a href="#" class="btn btn-secondary btn-sm"><i class="fa fa-user-alt-slash"></i></a>
 
 
                           <a href="/user/'.$row->id.'" class="btn btn-primary btn-sm" title="Detail"><i class="fa fa-eye"></i></a> <a href="/user/'.$row->id.'/edit" class="btn btn-warning btn-sm" title="Edit"><i class="fa fa-edit"></i></a> <a href="'.$row->id.'" class="btn btn-danger btn-sm" id="hapus" title="Hapus"><i class="fa fa-trash"></i></a>';

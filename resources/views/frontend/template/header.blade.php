@@ -30,7 +30,18 @@
                                 <a class="nav-link" href="/blog/category">Categories</a>
                             </li>
                         </ul>
-
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                @guest
+                                <a class="nav-link" href="/login">
+                                    <i class="fa fa-sign-in-alt"></i> Login</a>
+                                @else
+                                <a class="nav-link" href="/dashboard">
+                                    <i class="fa fa-user"></i> {{ auth()->user()->name }}
+                                </a>
+                                @endguest
+                            </li>
+                        </ul>
                         
                     </div>
 

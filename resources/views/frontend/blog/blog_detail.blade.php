@@ -11,7 +11,7 @@
                 <div class="col-md-12">
                     <h2 class="mt-3 mb-3 text-center">{{ $post->title }}</h2>
                     <p>
-                        <i class="fas fa-calendar"></i> {{ $post->published_at }} | <i class="fas fa-user"></i> <a href="#" class="text-decoration-none">{{ $post->user->name }}</a> | <i class="fas fa-eye"></i> 0
+                        <i class="fas fa-calendar"></i> {{ $post->published_at }} | <i class="fas fa-user"></i> <a href="#" class="text-decoration-none">{{ $post->user->name }}</a> | <i class="fas fa-eye"></i> {{ $post->view }}
                                        
                     </p>
 

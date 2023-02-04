@@ -46,7 +46,12 @@ Route::middleware(['auth','verified'])->group(function(){
 	Route::middleware('can:isAdmin')->group(function(){ 
 		Route::resource('category', CategoryController::class)->except('show');
 		Route::get('/category/checkSlug', [CategoryController::class, 'checkSlug']);
-		Route::get('/controlpost', [ControlPostController::class, 'index']);
+
+		Route::controller(ControlPostController::class)->group(function(){ 
+			Route::get('/controlpost', 'index');
+			Route::get('/controlpost/detail/{post:slug}', 'detail_post');
+		});
+
 	});
 
 	Route::middleware('can:SuperUser')->group(function(){ 
