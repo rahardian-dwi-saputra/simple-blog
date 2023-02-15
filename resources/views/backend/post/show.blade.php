@@ -1,6 +1,7 @@
 @extends('backend/template/main')
 @section('title','Postingan Saya')
 @section('container')
+@inject('carbon', 'Carbon\Carbon')
 <style type="text/css">
     table.borderless td,table.borderless th{
         border: none !important;
@@ -34,6 +35,12 @@
                   <div class="card-body">
                      <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12">
+                           @if($data->blocked_at != null)
+                           <div class="alert alert-danger" role="alert">
+                              Postingan ini telah dibanned oleh Admin pada {{ $carbon::parse($block->added_at)->format('d-m-Y H:i:s') }} dikarenakan " {{ $block->reason }} "
+                              
+                           </div>
+                           @endif
                            <div class="table-responsive">
                               <table class="table borderless">
                                  @if($data->image)
@@ -71,7 +78,7 @@
                                        <strong>Dilihat</strong>
                                     </td>
                                     <td>:</td>
-                                    <td>{{ $view }}</td> 
+                                    <td>{{ $data->view }}</td> 
                                  </tr>
                                  <tr>
                                     <td>
@@ -115,11 +122,14 @@
                      <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12">
                            <div class="form-group">
+                              @if(request()->is('banned-post*'))
+                              <a href="/banned-post" class="btn btn-info">Kembali</a>
+                              @else
                               <a href="/post" class="btn btn-info">Kembali</a>
+                              @endif
                            </div>
                         </div>
                      </div>
-
 
                   </div>
                </div>

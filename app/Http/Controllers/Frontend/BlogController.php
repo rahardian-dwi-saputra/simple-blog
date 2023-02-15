@@ -16,6 +16,7 @@ class BlogController extends Controller{
         $posts = Post::with(['category','user:id,name'])
                     ->withCount('view_posts as view')
                     ->where('is_publish', 1)
+                    ->whereNull('blocked_at')
                     ->orderBy('published_at','desc')
                     ->paginate(5);
 
@@ -31,7 +32,7 @@ class BlogController extends Controller{
         ]);
     }
     public function detail_post(Post $post){
-        if($post->is_publish == 0)
+        if($post->is_publish == 0 || $post->blocked_at != null)
             abort(403);
 
         if(Auth::check()){

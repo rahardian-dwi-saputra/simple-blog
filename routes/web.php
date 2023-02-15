@@ -10,6 +10,7 @@ use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\RegisterController;
 use App\Http\Controllers\Backend\ForgotPasswordController;
 use App\Http\Controllers\Backend\EmailVerificationController;
+use App\Http\Controllers\Backend\ProfilController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\BlogController;
 
@@ -41,7 +42,11 @@ Route::middleware(['auth','verified'])->group(function(){
 	Route::get('/dashboard', [DashboardController::class, 'index']);
 	Route::get('/post/checkSlug', [PostController::class, 'checkSlug']);
 	Route::resource('post', PostController::class);
+	Route::get('/banned-post', [PostController::class, 'banned_posts']);
+	Route::get('/banned-post/detail/{post:slug}', [PostController::class, 'show']);
 	Route::post('/logout', [AuthController::class, 'logout']);
+
+	Route::post('/myprofil', [ProfilController::class, 'index']);
 
 	Route::middleware('can:isAdmin')->group(function(){ 
 		Route::resource('category', CategoryController::class)->except('show');
@@ -49,7 +54,10 @@ Route::middleware(['auth','verified'])->group(function(){
 
 		Route::controller(ControlPostController::class)->group(function(){ 
 			Route::get('/controlpost', 'index');
+			Route::get('/controlpost/list', 'get_banned_post');
 			Route::get('/controlpost/detail/{post:slug}', 'detail_post');
+			Route::post('/controlpost/banned/{post:slug}', 'banned_post');
+			Route::post('/controlpost/unbanned/{post:slug}', 'unbanned_post');
 		});
 
 	});

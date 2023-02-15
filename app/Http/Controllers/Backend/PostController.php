@@ -13,6 +13,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\View;
+use App\View\Composers\PostComposer;
 
 class PostController extends Controller
 {
@@ -37,6 +38,7 @@ class PostController extends Controller
                         )
                         ->join('categories', 'categories.id', '=', 'posts.category_id')
                         ->leftJoin('view_posts', 'posts.id', '=', 'view_posts.post_id')
+                        ->whereNull('blocked_at')
                         ->where('user_id', auth()->user()->id);
 
             if(!empty(request()->category)){
@@ -83,6 +85,47 @@ class PostController extends Controller
         }
         return view('backend.post.index', [
             'categories' => DB::table('categories')->select('id','name')->get()
+        ]);
+    }
+
+    public function banned_posts(){
+
+        if (request()->ajax()){
+
+            $data = Post::select(
+                            'title',
+                            'posts.slug',
+                            'categories.name as category',
+                            'blocked_at', 
+                            DB::raw('count(view_posts.post_id) as view'),
+                            'published_at'
+                        )
+                        ->join('categories', 'categories.id', '=', 'posts.category_id')
+                        ->leftJoin('view_posts', 'posts.id', '=', 'view_posts.post_id')
+                        ->whereNotNull('blocked_at')
+                        ->where('user_id', auth()->user()->id)
+                        ->groupBy('posts.id')
+                        ->orderBy('published_at','desc');
+
+            return DataTables::eloquent($data)
+                ->addIndexColumn()
+                ->addColumn('action', function($row){
+     
+                          $actionBtn = '<a href="/banned-post/detail/'.$row->slug.'" class="btn btn-primary btn-sm" title="Detail"><i class="fa fa-eye"></i></a>';
+
+                        return $actionBtn;
+                })
+                ->rawColumns(['action'])
+                ->toJson();
+
+        }
+
+        $cek_banned = Post::where('user_id', auth()->user()->id)
+                ->whereNotNull('blocked_at')
+                ->count();
+
+        return view('backend.post.banned_posts', [
+            'cek_banned' => $cek_banned
         ]);
     }
 
@@ -144,10 +187,14 @@ class PostController extends Controller
             abort(403);
         }
 
+        $post->loadCount('view_posts as view');
+
+        $postComposer = new PostComposer($post);
+        $postComposer->compose();
+
         return view('backend.post.show', [
-            'data' => $post,
-            'view' => DB::table('view_posts')->where('post_id',$post->id)->count(),
-        ]);
+            'data' => $post
+        ]); 
     }
 
     /**

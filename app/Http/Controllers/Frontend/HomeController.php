@@ -12,6 +12,7 @@ class HomeController extends Controller{
     	$posts = Post::with(['category','user:id,name'])
     				->withCount('view_posts as view')
     				->where('is_publish', 1)
+                    ->whereNull('blocked_at')
     				->orderBy('published_at','desc')
     				->limit(6)
     				->get();

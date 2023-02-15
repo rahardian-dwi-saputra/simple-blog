@@ -11,10 +11,15 @@
       <!-- Sidebar user (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
          <div class="image">
-            <img src="{{ asset('assets/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
+            @if(auth()->user()->foto)
+
+            @else
+            <img src="{{ asset('assets/dist/img/default-profil.png') }}" class="img-circle elevation-2" alt="User Image">
+            @endif
+
          </div>
          <div class="info">
-            <a href="#" class="d-block">{{ auth()->user()->name }}</a>
+            <a href="/myprofil" class="d-block">{{ auth()->user()->name }}</a>
          </div>
       </div>
 
@@ -43,14 +48,31 @@
             </li>
             @endcan
 
-            <li class="nav-item">
-               <a href="/post" class="nav-link {{ ($active === "Postingan Saya")? 'active':''}}">
+            <li class="nav-item {{ ($active === "Postingan Saya")? 'menu-open':''}}">
+               <a href="#" class="nav-link {{ ($active === "Postingan Saya")? 'active':''}}">
                   <i class="nav-icon fas fa-edit"></i>
                   <p>
-                     Postingan Saya 
+                     Postingan Saya
+                     <i class="right fas fa-angle-left"></i>
                   </p>
                </a>
+               <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                     <a href="/post" class="nav-link @if(request()->is('post*')) active @endif">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Aktif</p>
+                     </a>
+                  </li>
+                  <li class="nav-item">
+                     <a href="/banned-post" class="nav-link @if(request()->is('banned-post*')) active @endif">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Banned</p>
+                     </a>
+                  </li>
+            
+               </ul>
             </li>
+
 
             @can('isAdmin')
             <li class="nav-item">

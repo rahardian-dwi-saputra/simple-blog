@@ -24,7 +24,8 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Postingan Saya</li>
+                        <li class="breadcrumb-item">Postingan Saya</li>
+                        <li class="breadcrumb-item active">Aktif</li>
                     </ol>
                 </div>
             </div>
@@ -81,7 +82,7 @@
                                         </div>
                                         <div class="form-group row">
                                             <label for="filter_tanggal" class="col-sm-3 col-form-label">
-                                                Tanggal
+                                                Tanggal Posting
                                             </label>
                                             <div class="col-sm-4">
                                                 <div class="input-group">

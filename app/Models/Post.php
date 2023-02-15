@@ -31,6 +31,11 @@ class Post extends Model
             set: fn ($value) => Carbon::parse($value)->format('Y-m-d'),
         );
     }
+    protected function BlockedAt(): Attribute{
+        return Attribute::make(
+            get: fn ($value) => is_null($value) ? null:Carbon::parse($value)->format('d-m-Y H:i:s'),
+        );
+    }
     public function category(){
     	return $this->belongsTo(Category::class);
     }
