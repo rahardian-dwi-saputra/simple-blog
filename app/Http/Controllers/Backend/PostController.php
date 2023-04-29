@@ -18,6 +18,7 @@ use App\View\Composers\PostComposer;
 class PostController extends Controller
 {
     public function __construct(){
+        DB::statement("SET SQL_MODE=''");
         View::share('active', 'Postingan Saya');
     }
     /**

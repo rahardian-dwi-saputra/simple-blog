@@ -14,6 +14,7 @@ use App\View\Composers\PostComposer;
 class ControlPostController extends Controller{
     
     public function __construct(){
+        DB::statement("SET SQL_MODE=''");
         View::share('active', 'Control Post');
     }
     public function index(){

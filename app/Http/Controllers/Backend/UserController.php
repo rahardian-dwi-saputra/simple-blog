@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\RegisterbyAdmin;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Carbon;
 
 class UserController extends Controller{
 
@@ -33,8 +34,9 @@ class UserController extends Controller{
                             'username',
                             'email',
                             'is_admin',
-                            'blocked_at')
-                        ->where('can_delete', 1);
+                            'blocked_at',
+                            'email_verified_at'
+                        )->where('can_delete', 1);
 
             if(!empty(request()->role)){
                 if(request()->role == 'Admin')
@@ -69,11 +71,15 @@ class UserController extends Controller{
                     ->removeColumn('is_admin')
                     ->addColumn('action', function($row){
 
-                          $actionBtn = '<a href="#" class="btn btn-secondary btn-sm"><i class="fa fa-user-alt-slash"></i></a>
+                        $actionBtn = '';
 
+                        if($row->email_verified_at != null && $row->blocked_at == null){
+                            $actionBtn .= '<a href="'.$row->id.'" class="btn btn-secondary btn-sm" title="Suspend user" id="btn-suspent"><i class="fa fa-user-alt-slash"></i></a> ';
+                        }elseif ($row->email_verified_at != null && $row->blocked_at != null){
+                            $actionBtn .= '<a href="'.$row->id.'" class="btn btn-success btn-sm" title="Unsuspend user" id="btn-suspent"><i class="fa fa-reply"></i></a> ';
+                        }
 
-                          <a href="/user/'.$row->id.'" class="btn btn-primary btn-sm" title="Detail"><i class="fa fa-eye"></i></a> <a href="/user/'.$row->id.'/edit" class="btn btn-warning btn-sm" title="Edit"><i class="fa fa-edit"></i></a> <a href="'.$row->id.'" class="btn btn-danger btn-sm" id="hapus" title="Hapus"><i class="fa fa-trash"></i></a>';
-
+                        $actionBtn .= '<a href="/user/'.$row->id.'" class="btn btn-primary btn-sm" title="Detail"><i class="fa fa-eye"></i></a> <a href="/user/'.$row->id.'/edit" class="btn btn-warning btn-sm" title="Edit"><i class="fa fa-edit"></i></a> <a href="'.$row->id.'" class="btn btn-danger btn-sm" id="hapus" title="Hapus"><i class="fa fa-trash"></i></a>';
 
                         return $actionBtn;
                     })
@@ -192,5 +198,28 @@ class UserController extends Controller{
                 'message' => 'Data Pengguna tidak dapat dihapus',
             ]);
         }
+    }
+
+    public function ban_user(User $user){
+        if($user->email_verified_at == null){
+            return response()->json([
+                'success' => false,
+                'message' => 'Pengguna belum melakukan verifikasi email',
+            ]);
+        }
+
+        User::find($user->id)->update([
+            'blocked_at' => Carbon::now()
+        ]);
+
+        Mail::send('backend.user.suspendemail', ['name' => $user->name], function($message) use($request){
+            $message->to($user->email);
+            $message->subject('Suspend Account');
+        });
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Pengguna berhasil di suspent',
+        ]);
     }
 }

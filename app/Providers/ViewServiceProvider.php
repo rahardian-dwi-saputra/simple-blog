@@ -26,6 +26,8 @@ class ViewServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer('frontend.template.sidebar', function($view){
+            DB::statement("SET SQL_MODE=''");
+
             $posts = DB::table('posts')
                         ->select(
                             'slug',

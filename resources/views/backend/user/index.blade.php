@@ -174,6 +174,32 @@
    </div>
 </div>
 
+<div class="modal fade" id="modal-konfirmasi-suspent">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header bg-danger">
+            <h4 class="modal-title">Konfirmasi</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+
+         <form id="form-suspend">
+            <input type="hidden" name="link_suspend" id="link_suspend" />
+            <div class="modal-body">
+               @csrf
+               Apakah anda yakin ingin suspent user ini?
+            </div>
+            <div class="modal-footer">
+               <button type="submit" class="btn btn-primary">Ya</button>
+               <button type="button" class="btn btn-default" data-dismiss="modal">Tidak</button>
+            </div>
+         </form>
+
+      </div>
+   </div>
+</div>
+
 <script src="{{ asset('assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
 <script>
@@ -240,6 +266,37 @@
                   $('div.alert').removeClass('alert-success');
                }
                $('#link').val('');
+               $('div.alert').show();
+               $('div.alert p').text(response.message);
+               table.ajax.reload(null, false);
+               $('div.alert').fadeOut(10000);
+            }
+         });
+      });
+
+      $(document).on('click', 'a#btn-suspent', function(e){ 
+         e.preventDefault();
+         $('#link_suspend').val($(this).attr('href'));
+         $('#modal-konfirmasi-suspent').modal('show');
+      });
+
+      $('#form-suspend').submit(function(e){ 
+         e.preventDefault();
+         $.ajax({ 
+            url: "/user/suspent/"+$('#link_suspend').val(),
+            type: "POST",
+            data: $(this).serializeArray(),
+            dataType: 'json',
+            success: function(response){
+               $('#modal-konfirmasi-suspent').modal('hide'); 
+               if(response.success == true){
+                  $('div.alert').addClass('alert-success');
+                  $('div.alert').removeClass('alert-danger');
+               }else{
+                  $('div.alert').addClass('alert-danger');
+                  $('div.alert').removeClass('alert-success');
+               }
+               $('#link_suspend').val('');
                $('div.alert').show();
                $('div.alert p').text(response.message);
                table.ajax.reload(null, false);

@@ -64,6 +64,7 @@ Route::middleware(['auth','verified'])->group(function(){
 
 	Route::middleware('can:SuperUser')->group(function(){ 
 		Route::resource('user', UserController::class);
+		Route::post('/user/suspent/{user}', [UserController::class, 'ban_user']);
 	});
 });
 
