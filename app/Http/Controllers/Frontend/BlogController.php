@@ -17,12 +17,21 @@ class BlogController extends Controller{
                     ->withCount('view_posts as view')
                     ->where('is_publish', 1)
                     ->whereNull('blocked_at')
-                    ->orderBy('published_at','desc')
-                    ->paginate(5);
+                    ->orderBy('published_at','desc')->get();
+                    
+                    /*
+        if(request('keyword')){
+            $posts->where('title', 'like', '%'.request('keyword').'%')
+                    ->orWhere('body', 'like', '%'.request('keyword').'%');
+        }
+        */
+
+        
 
     	return view('frontend.blog.all_blog',[
     		'posts' => $posts,
-            'active' => 'Blog'
+            'active' => 'Blog',
+            'title' => 'Semua Postingan',
     	]); 
     }
     public function categories(){
