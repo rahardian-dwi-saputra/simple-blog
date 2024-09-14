@@ -10,26 +10,25 @@ class CategorySeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
-    public function run(){
+    public function run(): void
+    {
         DB::table('categories')->insert([ 
         	[
         		'name' => 'Teknologi Informasi',
         		'slug' => 'teknologi-informasi'
         	],[
         		'name' => 'Ekonomi dan bisnis',
-        		'slug' => 'teknologi-dan-bisnis'
+        		'slug' => 'ekonomi-dan-bisnis'
         	],[
         		'name' => 'Psikologi',
         		'slug' => 'psikologi'
         	],[
-        		'name' => 'Berita',
-        		'slug' => 'berita'
+        		'name' => 'Kesehatan',
+        		'slug' => 'kesehatan'
         	],[
-        		'name' => 'Traveling',
-        		'slug' => 'traveling'
+        		'name' => 'Hobby',
+        		'slug' => 'hobby'
         	]
         ]);
     }

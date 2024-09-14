@@ -63,7 +63,7 @@
                                                 <select class="form-control" id="filter_kategori">
                                                     <option value="">Semua Kategori</option>
                                                     @foreach($categories as $category)
-                                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                    <option value="{{ $category->slug }}">{{ $category->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -219,7 +219,7 @@
                {data: 'category', name: 'category'},
                {data: 'publish', name: 'publish'},
                {data: 'view', name: 'view'},
-               {data: 'published_at', name: 'published_at'},
+               {data: 'created_at', name: 'created_at'},
                {
                   data: 'action', 
                   name: 'action', 

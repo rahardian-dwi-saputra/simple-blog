@@ -48,32 +48,15 @@
             </li>
             @endcan
 
-            <li class="nav-item {{ ($active === "Postingan Saya")? 'menu-open':''}}">
-               <a href="#" class="nav-link {{ ($active === "Postingan Saya")? 'active':''}}">
+            <li class="nav-item">
+               <a href="/post" class="nav-link {{ ($active === "Postingan Saya")? 'active':''}}">
                   <i class="nav-icon fas fa-edit"></i>
                   <p>
-                     Postingan Saya
-                     <i class="right fas fa-angle-left"></i>
+                     Postingan Saya 
                   </p>
                </a>
-               <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                     <a href="/post" class="nav-link @if(request()->is('post*')) active @endif">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Aktif</p>
-                     </a>
-                  </li>
-                  <li class="nav-item">
-                     <a href="/banned-post" class="nav-link @if(request()->is('banned-post*')) active @endif">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Banned</p>
-                     </a>
-                  </li>
-            
-               </ul>
             </li>
-
-
+           
             @can('isAdmin')
             <li class="nav-item">
                <a href="/controlpost" class="nav-link {{ ($active === "Control Post")? 'active':''}}">
@@ -84,8 +67,7 @@
                </a>
             </li>
             @endcan
-
-            @can('SuperUser')
+ 
             <li class="nav-item">
                <a href="/user" class="nav-link {{ ($active === "User")? 'active':''}}">
                   <i class="nav-icon fas fa-users"></i>
@@ -94,8 +76,7 @@
                   </p>
                </a>
             </li>
-            @endcan
-            
+          
 
             <li class="nav-item">
                <form method="post" action="/logout">

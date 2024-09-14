@@ -8,25 +8,21 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('view_posts', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('post_id');
-            $table->string('user')->default('Anonymous');
-            $table->ipAddress('visitor');
+            $table->ipAddress('ip_visitor');
             $table->timestamp('access_at', $precision = 0);
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('view_posts');
     }

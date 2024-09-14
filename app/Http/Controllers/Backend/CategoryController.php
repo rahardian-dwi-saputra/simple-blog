@@ -4,31 +4,29 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 use App\Models\Category;
 use App\Models\Post;
 use \Cviebrock\EloquentSluggable\Services\SlugService;
-use Illuminate\Support\Facades\View;
 
-class CategoryController extends Controller{
-
+class CategoryController extends Controller
+{
     public function __construct(){
         View::share('active', 'Category');
     }
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function index(){
+    public function index()
+    {
         return view('backend.kategori.index', ['categories' => Category::all()]);
     }
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function create(){
+    public function create()
+    {
         return view('backend.kategori.create', ['title' => 'Tambah Kategori Baru']);
     }
 
@@ -36,14 +34,12 @@ class CategoryController extends Controller{
         $slug = SlugService::createSlug(Category::class, 'slug', $request->name);
         return response()->json(['slug' => $slug]);
     }
+
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
-    public function store(Request $request){
-
+    public function store(Request $request)
+    {
         $validated = $request->validate([
             'name' => 'required|unique:categories|string|max:255',
             'slug' => 'required|unique:categories',
@@ -55,11 +51,9 @@ class CategoryController extends Controller{
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category){
+    public function edit(Category $category)
+    {
         return view('backend.kategori.edit', [
             'title' => 'Edit Kategori',
             'data' => $category
@@ -68,12 +62,9 @@ class CategoryController extends Controller{
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category){
+    public function update(Request $request, Category $category)
+    {
         $rules = [
             'name' => 'required|unique:categories|string|max:255'
         ];
@@ -89,11 +80,9 @@ class CategoryController extends Controller{
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category){
+    public function destroy(Category $category)
+    {
         $cek = Post::where('category_id', $category->id)->count();
         if($cek == 0){
             Category::destroy($category->id);

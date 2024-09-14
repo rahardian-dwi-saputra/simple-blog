@@ -2,11 +2,12 @@
 
 namespace App\Providers;
 
+// use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Auth\Access\Response;
-use App\Models\Post;
+
 use App\Models\User;
+use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -21,22 +22,15 @@ class AuthServiceProvider extends ServiceProvider
 
     /**
      * Register any authentication / authorization services.
-     *
-     * @return void
      */
-    public function boot(){
+    public function boot(): void
+    {
         $this->registerPolicies();
 
-        Gate::define('isAdmin', function($user) {
-            return $user->is_admin ? Response::allow() : Response::deny('You must be an administrator.');
-        });
-
-        Gate::define('SuperUser', function($user) { 
-            return $user->is_admin && (!$user->can_delete);
-        });
-
-        Gate::define('access-post', function (User $user, Post $post) {
-            return $user->id === $post->user_id;
+        Gate::define('isAdmin', function (User $user) {
+            return $user->is_admin
+                ? Response::allow()
+                : Response::denyWithStatus(404);
         });
     }
 }

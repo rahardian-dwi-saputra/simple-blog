@@ -8,32 +8,34 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\ResetPasswordMail;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
-class ForgotPasswordController extends Controller{
-    
+class ForgotPasswordController extends Controller
+{
     public function index(){
     	return view('backend.authentikasi.forgotpassword'); 
     }
     public function submitForgetPasswordForm(Request $request){
 
-        $request->validate([
+    	$request->validate([
             'email' => 'required|email|exists:users'
         ]);
 
         $token = Str::random(64);
 
-        DB::table('password_resets')->insert([
+        DB::table('password_reset_tokens')->insert([
             'email' => $request->email, 
             'token' => $token, 
             'created_at' => Carbon::now()
         ]);
 
-        Mail::send('backend.authentikasi.messageforgotpassword', ['token' => $token], function($message) use($request){
-            	$message->to($request->email);
-              	$message->subject('Reset Password');
-        });
+        $mailData = [
+            'token' => $token
+        ];
+
+        Mail::to($request->email)->send(new ResetPasswordMail($mailData));
 
         return back()->with('message', 'We have e-mailed your password reset link!');
     }
@@ -49,7 +51,7 @@ class ForgotPasswordController extends Controller{
             'password_confirmation' => 'required'
         ]);
 
-        $updatePassword = DB::table('password_resets')->where([
+        $updatePassword = DB::table('password_reset_tokens')->where([
             'email' => $request->email, 
             'token' => $request->token
         ])->first();
@@ -62,7 +64,7 @@ class ForgotPasswordController extends Controller{
             'password' => Hash::make($request->password)
         ]);
  
-        DB::table('password_resets')->where(['email'=> $request->email])->delete();
+        DB::table('password_reset_tokens')->where(['email'=> $request->email])->delete();
   
         return redirect('/login')->with('message', 'Your password has been changed!');
     }

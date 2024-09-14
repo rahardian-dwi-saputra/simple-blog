@@ -105,10 +105,10 @@
                                                 <select class="form-control @error('category') is-invalid @enderror" id="category" name="category">
                                                     <option value="">Pilih</option>
                                                     @foreach($categories as $category)
-                                                        @if(old('category') == $category->id)
-                                                        <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
+                                                        @if(old('category') == $category->slug)
+                                                        <option value="{{ $category->slug }}" selected>{{ $category->name }}</option>
                                                         @else
-                                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                        <option value="{{ $category->slug }}">{{ $category->name }}</option>
                                                         @endif
                                                     @endforeach
                                                 </select>

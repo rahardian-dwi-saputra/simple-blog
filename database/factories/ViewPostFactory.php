@@ -5,7 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ViewPost>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
  */
 class ViewPostFactory extends Factory
 {
@@ -14,13 +14,11 @@ class ViewPostFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
-        $users = array('Anonymous','Admin','User');
         return [
             'post_id' => mt_rand(1,20),
-            'user' => $users[mt_rand(0,2)],
-            'visitor' => fake()->localIpv4(),
+            'ip_visitor' => fake()->localIpv4(),
             'access_at' => fake()->dateTimeInInterval('-1 years', '+12 months'),
         ];
     }

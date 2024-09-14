@@ -6,57 +6,52 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
-use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class RegisterbyAdmin extends Mailable
+class ResetPasswordMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $email_data;
+    public $mailData;
 
     /**
      * Create a new message instance.
-     *
-     * @return void
      */
-    public function __construct($data)
+    public function __construct($mailData)
     {
-        $this->email_data = $data;
+        $this->mailData = $mailData;
     }
 
     /**
      * Get the message envelope.
-     *
-     * @return \Illuminate\Mail\Mailables\Envelope
      */
-    public function envelope()
+    public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address('simpleblog@example.com', 'Admin Simple Blog'),
-            subject: 'Welcome to Simple-Blog',
+            subject: 'Reset Password',
         );
     }
 
     /**
      * Get the message content definition.
-     *
-     * @return \Illuminate\Mail\Mailables\Content
      */
-    public function content()
+    public function content(): Content
     {
         return new Content(
-            view: 'backend.user.registeremail',
+            view: 'backend.authentikasi.messageforgotpassword',
+            with: [
+                'token' => $this->mailData['token'],
+            ],
         );
     }
 
     /**
      * Get the attachments for the message.
      *
-     * @return array
+     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
      */
-    public function attachments()
+    public function attachments(): array
     {
         return [];
     }
