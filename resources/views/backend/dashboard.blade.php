@@ -155,44 +155,37 @@
 <script>
    $(function(){ 
 
-      
-
-      var myChart = new Chart("visitors-chart", {
-         type: "bar",
-         data: {
-            labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-            datasets: [{
-               label: '# of Votes',
-               data: [12, 19, 3, 23, 2, 3],
-               backgroundColor: [
-               'rgba(255, 99, 132, 0.2)',
-               'rgba(54, 162, 235, 0.2)',
-               'rgba(255, 206, 86, 0.2)',
-               'rgba(75, 192, 192, 0.2)',
-               'rgba(153, 102, 255, 0.2)',
-               'rgba(255, 159, 64, 0.2)'
-               ],
-               borderColor: [
-               'rgba(255,99,132,1)',
-               'rgba(54, 162, 235, 1)',
-               'rgba(255, 206, 86, 1)',
-               'rgba(75, 192, 192, 1)',
-               'rgba(153, 102, 255, 1)',
-               'rgba(255, 159, 64, 1)'
-               ],
-               borderWidth: 1
-            }]
+      var myChart = new Chart(document.getElementById("visitors-chart"), {
+         type : 'line',
+         data : {
+            labels : [ 1500, 1600, 1700, 1750, 1800, 1850,
+                  1900, 1950, 1999, 2050 ],
+            datasets : [
+                  {
+                     data : [ 186, 205, 1321, 1516, 2107,
+                           2191, 3133, 3221, 4783, 5478 ],
+                     label : "America",
+                     borderColor : "#3cba9f",
+                     fill : false
+                  },
+                  {
+                     data : [ 1282, 1350, 2411, 2502, 2635,
+                           2809, 3947, 4402, 3700, 5267 ],
+                     label : "Europe",
+                     borderColor : "#e43202",
+                     fill : false
+                  } ]
          },
-         options: {
-            scales: {
-               yAxes: [{
-                  ticks: {
-                     beginAtZero:true
-                  }
-               }]
+         options : {
+            title : {
+               display : true,
+               text : 'Chart JS Multiple Lines Example'
             }
          }
       });
+
+
+      
 
 
    });

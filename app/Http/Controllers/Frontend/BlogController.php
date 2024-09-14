@@ -13,18 +13,22 @@ use Illuminate\Support\Carbon;
 class BlogController extends Controller{
     
     public function index(){
+        
+        $where = [
+                    ['is_publish','=',1],
+                    ['blocked_at','=',null]
+                ];
+
+        if(request('keyword') != ''){
+            //$posts->where('title', 'like', '%'.request('keyword').'%')->orWhere('body', 'like', '%'.request('keyword').'%');
+
+            $where[] = ['title','like','%'.request('keyword').'%'];
+        }
+
         $posts = Post::with(['category','user:id,name'])
                     ->withCount('view_posts as view')
-                    ->where('is_publish', 1)
-                    ->whereNull('blocked_at')
+                    ->where($where)
                     ->orderBy('published_at','desc')->get();
-                    
-                    /*
-        if(request('keyword')){
-            $posts->where('title', 'like', '%'.request('keyword').'%')
-                    ->orWhere('body', 'like', '%'.request('keyword').'%');
-        }
-        */
 
         
 

@@ -67,7 +67,7 @@
     </div>
     
     @else
-    <p class="h3">Postingan tidak ditemukan</p>
+    <p class="h3">Belum ada Postingan</p>
     @endif
 
 </aside>
