@@ -35,12 +35,7 @@
                   <div class="card-body">
                      <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12">
-                           @if($data->blocked_at != null)
-                           <div class="alert alert-danger" role="alert">
-                              Postingan ini telah dibanned oleh Admin pada {{ $carbon::parse($block->added_at)->format('d-m-Y H:i:s') }} dikarenakan " {{ $block->reason }} "
-                              
-                           </div>
-                           @endif
+                          
                            <div class="table-responsive">
                               <table class="table borderless">
                                  @if($data->image)
@@ -98,7 +93,7 @@
                                        <strong>Tanggal Posting</strong>
                                     </td>
                                     <td>:</td>
-                                    <td>{{ $data->published_at }}</td> 
+                                    <td>{{ $data->created_at }}</td> 
                                  </tr>
                                  <tr>
                                     <td>

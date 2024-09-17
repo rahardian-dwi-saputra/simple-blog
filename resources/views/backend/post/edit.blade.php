@@ -113,10 +113,10 @@
                                                 <select class="form-control @error('category') is-invalid @enderror" id="category" name="category">
                                                     <option value="">Pilih</option>
                                                     @foreach($categories as $category)
-                                                        @if(old('category', $data->category_id) == $category->id)
-                                                        <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
+                                                        @if(old('category', $data->category->slug) == $category->slug)
+                                                        <option value="{{ $category->slug }}" selected>{{ $category->name }}</option>
                                                         @else
-                                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                        <option value="{{ $category->slug }}">{{ $category->name }}</option>
                                                         @endif
                                                     @endforeach
                                                 </select>
@@ -137,22 +137,7 @@
                                             </div>
                                         </div>
 
-                                         <div class="form-group row">
-                                            <label for="tanggal_posting" class="col-sm-2 col-form-label">Tanggal Posting</label>
-                                            <div class="col-sm-3">
-                                                <div class="input-group has-validation">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
-                                                    </div>
-                                                    <input name="tanggal_posting" id="tanggal_posting" type="text" class="form-control @error('tanggal_posting') is-invalid @enderror" placeholder="dd-mm-yyyy" autocomplete="off" value="{{ old('tanggal_posting', $data->published_at) }}">
-                                                    @error('tanggal_posting')
-                                                    <div class="invalid-feedback">
-                                                        {{ $message }}
-                                                    </div>
-                                                    @enderror
-                                                </div>
-                                            </div>
-                                        </div>
+                                        
 
                                         <div class="form-group row">
                                             <label for="category" class="col-sm-2 col-form-label">Isi</label>

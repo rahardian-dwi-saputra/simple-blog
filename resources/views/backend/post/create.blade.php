@@ -130,23 +130,6 @@
                                         </div>
 
                                         <div class="form-group row">
-                                            <label for="tanggal_posting" class="col-sm-2 col-form-label">Tanggal Posting</label>
-                                            <div class="col-sm-3">
-                                                <div class="input-group has-validation">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
-                                                    </div>
-                                                    <input name="tanggal_posting" id="tanggal_posting" type="text" class="form-control @error('tanggal_posting') is-invalid @enderror" placeholder="dd-mm-yyyy" autocomplete="off" value="{{ old('tanggal_posting') }}">
-                                                    @error('tanggal_posting')
-                                                    <div class="invalid-feedback">
-                                                        {{ $message }}
-                                                    </div>
-                                                    @enderror
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row">
                                             <label for="category" class="col-sm-2 col-form-label">Isi</label>
                                             <div class="col-sm-10">
                                                 <input id="body" type="hidden" name="body" value="{{ old('body') }}">
@@ -198,10 +181,7 @@
     }   
 
     $(function(){ 
-        $('#tanggal_posting').datepicker({
-            dateFormat:"dd-mm-yy"
-        });
-
+        
         $("#image").change(function(){
             readURL(this);
         });

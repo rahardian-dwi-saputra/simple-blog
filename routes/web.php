@@ -5,6 +5,8 @@ use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\PostController;
+use App\Http\Controllers\Backend\AllPostController;
+use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\RegisterController;
 use App\Http\Controllers\Backend\ForgotPasswordController;
 
@@ -26,14 +28,22 @@ Route::get('/', function () {
 Route::middleware('auth')->group(function(){ 
 	Route::get('/dashboard', [DashboardController::class, 'index']);
 	
-	Route::resource('post', PostController::class);
 	Route::get('/post/checkSlug', [PostController::class, 'checkSlug']);
+	Route::resource('post', PostController::class);
 
 	Route::post('/logout', [AuthController::class, 'logout']);
 
 	Route::middleware('can:isAdmin')->group(function(){
 		Route::resource('category', CategoryController::class)->except('show');
 		Route::get('/category/checkSlug', [CategoryController::class, 'checkSlug']);
+
+		Route::controller(AllPostController::class)->group(function(){ 
+			Route::get('/allpost', 'index');
+			
+		});
+
+		Route::get('/user', [UserController::class, 'index']);
+
 	});
 });
 

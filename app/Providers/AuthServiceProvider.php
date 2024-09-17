@@ -2,12 +2,12 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 use App\Models\User;
+use App\Models\Post;
 use Illuminate\Auth\Access\Response;
-use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -31,6 +31,10 @@ class AuthServiceProvider extends ServiceProvider
             return $user->is_admin
                 ? Response::allow()
                 : Response::denyWithStatus(404);
+        });
+
+        Gate::define('access-post', function (User $user, Post $post) {
+            return $user->id === $post->author_id;
         });
     }
 }

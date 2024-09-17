@@ -41,31 +41,12 @@
                      <h3 class="card-title">Daftar User</h3>
                   </div>
                   <div class="card-body">
-                     <div class="row">
-                        <div class="col-lg-12">
-                           <a href="/user/create" class="btn btn-info">
-                              <i class="fa fa-user-plus"></i> Tambah User
-                           </a>
-                        </div>
-                     </div>
-                     <br>
+                     
                      <br>
                      <div class="row">
                         <div class="col-md-6">
                            <form id="table-filter" class="form-horizontal">
 
-                              <div class="form-group row">
-                                 <label for="filter_role" class="col-sm-3 col-form-label">
-                                    Role User
-                                 </label>
-                                 <div class="col-sm-5">
-                                    <select class="form-control" id="filter_role">
-                                       <option value="">Semua</option>
-                                       <option value="Admin">Admin</option>
-                                       <option value="User">User</option>                  
-                                    </select>
-                                 </div>
-                              </div>
                               <div class="form-group row">
                                  <label for="filter_verifikasi" class="col-sm-3 col-form-label">
                                     Verifikasi Email
@@ -128,7 +109,7 @@
                                        <th>Nama</th>
                                        <th>Username</th>
                                        <th>Email</th>
-                                       <th>Role User</th>
+                                       <th>Tanggal Register</th>
                                        <th>Action</th>          
                                     </tr>
                                  </thead>

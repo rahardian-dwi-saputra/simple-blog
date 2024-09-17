@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\DB;
 use App\Models\Post;
 use DataTables;
+use \Cviebrock\EloquentSluggable\Services\SlugService;
+use App\Http\Requests\PostRequest;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -94,43 +98,115 @@ class PostController extends Controller
         ]);
     }
 
+    public function checkSlug(Request $request){
+        $slug = SlugService::createSlug(Post::class, 'slug', $request->title);
+        return response()->json(['slug' => $slug]);
+    }
+
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
-        //
+        $category = DB::table('categories')->where('slug', $request->category)->first();
+
+        $data_merge = [
+            'category_id' => $category->id,
+            'author_id' => auth()->user()->id,
+            'excerpt' => Str::limit(strip_tags($request->body), 200),
+            'is_publish' => 0
+        ];
+
+        if($request->has('publish')){
+            $data_merge['is_publish'] = 1;
+        }
+
+        if($request->file('image')){
+            $data_merge['image'] = $request->file('image')->store('post-images');
+        }
+
+        $validatedData = $request->safe()->merge($data_merge);
+
+        Post::create($validatedData->all());
+        return redirect('/post')->with('success','Berhasil membuat postingan baru');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Post $post)
     {
-        //
+        $post->loadCount('view_posts as view');
+        
+        return view('backend.post.show', [
+            'data' => $post
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Post $post)
     {
-        //
+        return view('backend.post.edit', [
+            'title' => 'Edit Postingan',
+            'data' => $post,
+            'categories' => DB::table('categories')->select('slug','name')->get()
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(PostRequest $request, Post $post)
     {
-        //
+        $category = DB::table('categories')->where('slug', $request->category)->first();
+
+        $data_merge = [
+            'category_id' => $category->id,
+            'excerpt' => Str::limit(strip_tags($request->body), 200),
+            'is_publish' => 0
+        ];
+
+        if($request->has('publish')){
+            $data_merge['is_publish'] = 1;
+        }
+
+        if($request->file('image')){
+            if($post->image){
+                Storage::delete($post->image);
+            }
+            $data_merge['image'] = $request->file('image')->store('post-images');
+        }
+
+        $validatedData = $request->safe()->merge($data_merge);
+
+        Post::find($post->id)->update($validatedData->all());
+        return redirect('/post')->with('success','Postingan berhasil diedit');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Post $post)
     {
-        //
+        if($post->image){
+            Storage::delete($post->image);
+        }
+
+        DB::table('view_posts')->where(['post_id'=> $post->id])->delete();
+        $delete = Post::destroy($post->id);
+
+        if($delete){
+            return response()->json([
+                'success' => true,
+                'message' => 'Postingan berhasil dihapus',
+            ]);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Postingan gagal dihapus, coba sekali lagi',
+            ]);
+        }
     }
 }
