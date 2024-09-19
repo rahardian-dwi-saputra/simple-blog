@@ -117,8 +117,8 @@
                      <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12">
                            <div class="form-group">
-                              @if(request()->is('banned-post*'))
-                              <a href="/banned-post" class="btn btn-info">Kembali</a>
+                              @if(request()->is('allpost*'))
+                              <a href="/allpost" class="btn btn-info">Kembali</a>
                               @else
                               <a href="/post" class="btn btn-info">Kembali</a>
                               @endif

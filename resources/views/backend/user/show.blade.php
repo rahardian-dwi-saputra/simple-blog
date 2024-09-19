@@ -37,11 +37,11 @@
                            <div class="table-responsive">
                               <table class="table borderless">
                                  <tr>
-                                    <td width="14%">
+                                    <td width="19%">
                                        <strong>Nama</strong>
                                     </td>
                                     <td width="1%">:</td>
-                                    <td width="85%">
+                                    <td width="80%">
                                        {{ $data->name }}
                                     </td> 
                                  </tr>
@@ -83,6 +83,15 @@
                                        @else
                                           User
                                        @endif
+                                    </td> 
+                                 </tr>
+                                 <tr>
+                                    <td>
+                                       <strong>Waktu Registerasi</strong>
+                                    </td>
+                                    <td>:</td>
+                                    <td>
+                                       {{ date('d-m-Y H:i:s', strtotime($data->created_at)) }}
                                     </td> 
                                  </tr>        
                               </table>

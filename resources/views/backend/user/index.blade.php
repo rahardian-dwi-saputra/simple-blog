@@ -192,7 +192,6 @@
             ajax: {
                url: "/user",
                data: function (d) {
-                  d.role = $('#filter_role').val(),
                   d.verifikasi = $('#filter_verifikasi').val(),
                   d.status = $('#filter_status').val()
                }
@@ -202,7 +201,7 @@
                {data: 'name', name: 'name'},
                {data: 'username', name: 'username'},
                {data: 'email', name: 'email'},
-               {data: 'role', name: 'role'},
+               {data: 'created_at', name: 'created_at'},
                {
                   data: 'action', 
                   name: 'action', 
@@ -218,7 +217,6 @@
       });
 
       $('button[type=reset]').click(function(){ 
-         $("#filter_role").val('').trigger('change');
          $("#filter_verifikasi").val('').trigger('change');
          $("#filter_status").val('').trigger('change');
          table.draw();

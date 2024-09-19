@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\AuthController;
+use App\Http\Controllers\Backend\ProfileController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\PostController;
@@ -31,6 +32,7 @@ Route::middleware('auth')->group(function(){
 	Route::get('/post/checkSlug', [PostController::class, 'checkSlug']);
 	Route::resource('post', PostController::class);
 
+	Route::get('/myprofil', [ProfileController::class, 'index']);
 	Route::post('/logout', [AuthController::class, 'logout']);
 
 	Route::middleware('can:isAdmin')->group(function(){
@@ -39,11 +41,11 @@ Route::middleware('auth')->group(function(){
 
 		Route::controller(AllPostController::class)->group(function(){ 
 			Route::get('/allpost', 'index');
-			
+			Route::get('/allpost/detail/{post:slug}', 'detail_post');
+			Route::delete('/allpost/delete/{post:slug}', 'delete_post');
 		});
-
-		Route::get('/user', [UserController::class, 'index']);
-
+		
+		Route::resource('user', UserController::class)->only(['index','show','destroy']);
 	});
 });
 

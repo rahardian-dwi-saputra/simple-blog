@@ -24,8 +24,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item">Postingan Saya</li>
-                        <li class="breadcrumb-item active">Aktif</li>
+                        <li class="breadcrumb-item active">Postingan Saya</li>
                     </ol>
                 </div>
             </div>

@@ -59,7 +59,7 @@
            
             @can('isAdmin')
             <li class="nav-item">
-               <a href="/allpost" class="nav-link {{ ($active === "Control Post")? 'active':''}}">
+               <a href="/allpost" class="nav-link {{ ($active === "All Post")? 'active':''}}">
                   <i class="nav-icon fas fa-list-alt"></i>
                   <p>
                      Kelola Daftar Postingan 
