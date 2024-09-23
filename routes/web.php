@@ -32,7 +32,14 @@ Route::middleware('auth')->group(function(){
 	Route::get('/post/checkSlug', [PostController::class, 'checkSlug']);
 	Route::resource('post', PostController::class);
 
-	Route::get('/myprofil', [ProfileController::class, 'index']);
+	Route::controller(ProfileController::class)->group(function(){ 
+		Route::get('/myprofil', 'index');
+		Route::get('/myprofil/edit', 'edit_profile');
+		Route::post('/myprofil/edit', 'update_profile');
+		Route::get('/ubahsandi', 'edit_sandi');
+		Route::post('/ubahsandi', 'update_sandi');
+	});
+
 	Route::post('/logout', [AuthController::class, 'logout']);
 
 	Route::middleware('can:isAdmin')->group(function(){

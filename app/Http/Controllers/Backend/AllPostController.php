@@ -50,11 +50,9 @@ class AllPostController extends Controller
             return DataTables::eloquent($data)
                 ->addIndexColumn()
                 ->addColumn('action', function($row){
-                        if($row->is_publish == 1){
-                            return '<a href="/controlpost/detail/'.$row->slug.'" class="btn btn-danger btn-sm" title="Banned post"><i class="fa fa-ban"></i> Banned</a>';
-                        }else{
-                            return '<a href="/allpost/detail/'.$row->slug.'" class="btn btn-primary btn-sm" title="View post"><i class="fa fa-eye"></i> Lihat</a>';
-                        }
+                        
+
+                        return '<a href="/allpost/detail/'.$row->slug.'" class="btn btn-primary btn-sm" title="View post"><i class="fa fa-eye"></i> Detail</a> <a href="'.$row->slug.'" class="btn btn-danger btn-sm" title="Banned post" id="hapus"><i class="fa fa-ban"></i> Hapus</a>';
      
                 })
                 ->rawColumns(['action'])

@@ -229,7 +229,7 @@
         $('#form-hapus').submit(function(e){
             e.preventDefault();
             $.ajax({
-                url: "/post/"+$('#link').val(),
+                url: "/allpost/delete/"+$('#link').val(),
                 type: "POST",
                 data: $(this).serializeArray(),
                 dataType: 'json',

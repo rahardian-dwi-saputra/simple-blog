@@ -1,5 +1,5 @@
 @extends('backend/template/main')
-@section('title','Dashboard')
+@section('title','My Profile')
 @section('container')
 
 <div class="content-wrapper">
@@ -27,64 +27,67 @@
 
                <div class="card card-primary card-outline">
                   <div class="card-body box-profile">
-                <div class="text-center">
-                  <img class="profile-user-img img-fluid img-circle"
+                     <div class="text-center">
+                        <img class="profile-user-img img-fluid img-circle"
                        src="{{ asset('assets/dist/img/default-profil.png') }}"
                        alt="User profile picture">
-                </div>
+                     </div>
 
-                <h3 class="profile-username text-center">{{ auth()->user()->username }}</h3>
+                     <h3 class="profile-username text-center">{{ auth()->user()->username }}</h3>
 
-                
+                     <a href="/ubahsandi" class="btn btn-success btn-block">
+                        <b><i class="fa fa-key"></i> Ubah Sandi</b>
+                     </a>
 
-                
-
-                <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
-              </div>
-              <!-- /.card-body -->
-            </div>
-
-
-
-
+                  </div>
+               </div>
 
             </div>
             <div class="col-md-9">
 
                <div class="card card-primary">
-              <div class="card-header">
-                <h3 class="card-title">Tentang Saya</h3>
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body">
-                <strong><i class="fas fa-id-card mr-1"></i> Nama</strong>
+                  <div class="card-header">
+                     <h3 class="card-title">Tentang Saya</h3>
+                  </div>
+              
+                  <div class="card-body">
 
-                <p class="text-muted">
-                  {{ auth()->user()->name }}
-                </p>
+                     @if(session()->has('success'))
+                     <div class="alert alert-success" role="alert">
+                        {{ session('success') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                           <span aria-hidden="true">&times;</span>
+                        </button>
+                     </div>
+                     @endif
 
-                <hr>
+                     <strong><i class="fas fa-id-card mr-1"></i> Nama</strong>
+                     <p class="text-muted">
+                        {{ auth()->user()->name }}
+                     </p>
+                     <hr>
 
-                <strong><i class="fas fa-user mr-1"></i> Username</strong>
+                     <strong><i class="fas fa-user mr-1"></i> Username</strong>
+                     <p class="text-muted">
+                        {{ auth()->user()->username }}
+                     </p>
+                     <hr>
 
-                <p class="text-muted">{{ auth()->user()->username }}</p>
+                     <strong><i class="fas fa-envelope mr-1"></i> Email</strong>
+                     <p class="text-muted">
+                        {{ auth()->user()->email }}
+                     </p>
+                     
+                     @if(auth()->user()->created_at)
+                     <hr>
+                     <strong><i class="far fa-calendar mr-1"></i> Tanggal bergabung</strong>
+                     <p class="text-muted">{{ auth()->user()->created_at }}</p>
+                     @endif
+                     <br>
 
-                <hr>
-
-                <strong><i class="fas fa-envelope mr-1"></i> Email</strong>
-
-                <p class="text-muted">
-                  {{ auth()->user()->email }}
-                </p>
-
-                <hr>
-
-                <strong><i class="far fa-calendar mr-1"></i> Tanggal bergabung</strong>
-
-                <p class="text-muted">{{ auth()->user()->name }}</p>
-
-
-                <a href="#" class="btn btn-info"><b>Edit Data Profil</b></a>
+                     <a href="/myprofil/edit" class="btn btn-info">
+                        <b><i class="fa fa-edit"></i> Edit Data Profil</b>
+                     </a>
               </div>
               <!-- /.card-body -->
             </div>
