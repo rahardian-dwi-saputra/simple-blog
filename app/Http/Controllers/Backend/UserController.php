@@ -43,6 +43,9 @@ class UserController extends Controller
 
             return Datatables::of($user)
                     ->addIndexColumn()
+                    ->editColumn('created_at', function(User $data) {
+                        return date('d-m-Y H:i:s', strtotime($data->created_at));
+                    })
                     ->addColumn('action', function($row){
 
                         $actionBtn = '';

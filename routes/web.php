@@ -10,6 +10,8 @@ use App\Http\Controllers\Backend\AllPostController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\RegisterController;
 use App\Http\Controllers\Backend\ForgotPasswordController;
+use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\BlogController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,8 +24,22 @@ use App\Http\Controllers\Backend\ForgotPasswordController;
 |
 */
 
+/*
 Route::get('/', function () {
     return view('welcome');
+});
+*/
+
+Route::get('/', [HomeController::class, 'index']);
+
+Route::get('/about', function(){
+    return view('frontend.about',['active' => 'About']);
+});
+
+Route::controller(BlogController::class)->group(function(){
+    Route::get('/blog', 'index');
+    Route::get('/blog/detail/{post:slug}', 'detail_post');
+    Route::get('/blog/category', 'categories');
 });
 
 Route::middleware('auth')->group(function(){ 
