@@ -19,6 +19,9 @@
                 <li class="nav-item {{ ($active === "Blog")? 'active':''}}">
                     <a class="nav-link" href="/blog">Blog</a>
                 </li>
+                <li class="nav-item {{ ($active === "Categoris")? 'active':''}}">
+                    <a class="nav-link" href="/blog/category">Categories</a>
+                </li>
             </ul>
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">

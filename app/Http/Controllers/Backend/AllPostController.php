@@ -49,6 +49,9 @@ class AllPostController extends Controller
 
             return DataTables::eloquent($data)
                 ->addIndexColumn()
+                ->editColumn('created_at', function(Post $post) {
+                    return date('d-m-Y H:i:s', strtotime($post->created_at));
+                })
                 ->addColumn('action', function($row){
                         
 

@@ -10,15 +10,17 @@
 
   <div class="card">
     @if($post->image)
-    <img src="{{ asset('storage/'.$data->image) }}" class="card-img-top" alt="...">
+    <img src="{{ asset('storage/'.$data->image) }}" class="card-img-top" alt="image post" height="200">
+    @else
+    <img src="https://picsum.photos/200/300?random={{ $loop->iteration }}" class="card-img-top" alt="Image post" height="200">
     @endif
     <div class="card-body">
-      <h5 class="card-title">{{ $post->title }}</h5>
-      <p class="card-text">{{ $post->excerpt }}</p>
+      <h5 class="card-title"><a href="/blog/detail/{{ $post->slug }}" class="text-decoration-none text-dark">{{ $post->title }}</a></h5>
       <p class="card-text">
         <small class="text-muted">Dibaca sebanyak {{ $post->view }} kali</small>
       </p>
-      <a href="/blog/detail/{{ $post->slug }}" class="card-link">Selengkapnya...</a>
+      <p class="card-text">{{ $post->excerpt }}</p>
+      <a href="/blog/detail/{{ $post->slug }}" class="btn btn-primary">Selengkapnya</a>
     </div>
   </div>
 
@@ -36,7 +38,7 @@
   <div class="col">
     <div class="card text-center p-3">
       <img src="{{ asset('assets/dist/img/default-profil.png') }}" class="img-thumbnail img-fluid rounded-circle mx-auto d-block" alt="user-foto" width="150" height="150">
-      <h5 class="card-title mt-1">{{ $user->name }}</h5>
+      <h5 class="card-title mt-1"><a href="/blog/user/{{ $user->username }}" class="text-decoration-none text-dark">{{ $user->name }}</a></h5>
       <p class="card-text">Total Postingan : {{ $user->total }}</p>
     </div>
   </div>

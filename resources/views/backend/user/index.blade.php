@@ -6,10 +6,11 @@
 <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
 
 <style type="text/css">
-   #data-user th, #data-user td:nth-child(1), #data-user td:nth-child(6){
+   #data-user th, #data-user td:nth-child(1), #data-user td:nth-child(5){
       text-align: center;
    }
    #data-user td:nth-child(6){
+      text-align: center;
       white-space: nowrap;
    }
 </style>

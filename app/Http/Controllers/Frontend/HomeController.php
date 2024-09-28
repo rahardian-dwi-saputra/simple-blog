@@ -29,6 +29,7 @@ class HomeController extends Controller
         				->select(
         					'name',
         					'foto',
+                            'username',
         					DB::raw('count(posts.author_id) as total')
         				)
         				->join('posts', 'posts.author_id', '=', 'users.id')

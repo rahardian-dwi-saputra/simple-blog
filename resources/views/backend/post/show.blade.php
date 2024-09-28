@@ -93,7 +93,7 @@
                                        <strong>Tanggal Posting</strong>
                                     </td>
                                     <td>:</td>
-                                    <td>{{ $data->created_at }}</td> 
+                                    <td>{{ date('d-m-Y H:i:s', strtotime($data->created_at)) }} ({{ $data->created_at->diffForHumans() }})</td> 
                                  </tr>
                                  <tr>
                                     <td>

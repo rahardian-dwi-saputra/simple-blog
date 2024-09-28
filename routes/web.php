@@ -38,8 +38,10 @@ Route::get('/about', function(){
 
 Route::controller(BlogController::class)->group(function(){
     Route::get('/blog', 'index');
-    Route::get('/blog/detail/{post:slug}', 'detail_post');
     Route::get('/blog/category', 'categories');
+    Route::get('/blog/category/{category:slug}', 'blog_categories');
+    Route::get('/blog/user/{author:username}', 'blog_user');
+    Route::get('/blog/detail/{post:slug}', 'detail_post');
 });
 
 Route::middleware('auth')->group(function(){ 

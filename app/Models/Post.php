@@ -30,13 +30,6 @@ class Post extends Model
         ];
     }
 
-    protected function createdAt(): Attribute
-    {
-        return Attribute::make(
-            get: fn (string $value) => date('d-m-Y', strtotime($value)),
-        );
-    }
-
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);

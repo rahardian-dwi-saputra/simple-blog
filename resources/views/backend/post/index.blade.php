@@ -3,10 +3,11 @@
 @section('container')
 
 <style type="text/css">
-    #table-post th, #table-post td:nth-child(1), #table-post td:nth-child(6), #table-post td:nth-child(7){
+    #table-post th, #table-post td:nth-child(1), #table-post td:nth-child(4), #table-post td:nth-child(5), #table-post td:nth-child(6){
         text-align: center;
     }
     #table-post td:nth-child(7){
+        text-align: center;
         white-space: nowrap;
     }
 </style>
