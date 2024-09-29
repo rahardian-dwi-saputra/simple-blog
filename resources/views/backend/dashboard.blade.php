@@ -2,6 +2,12 @@
 @section('title','Dashboard')
 @section('container')
 
+<style type="text/css">
+   #table-post th, #table-post td:nth-child(1), #table-post td:nth-child(4), #table-post td:nth-child(5), #table-post td:nth-child(6){
+        text-align: center;
+   }
+</style>
+
 <div class="content-wrapper">
    <section class="content-header">
       <div class="container-fluid">
@@ -75,15 +81,16 @@
                </div>
             </div>
          
-           
-
          </div>
+
+         @if($popular_posts->count())
+
          <div class="row">
             <div class="col-md-12">
 
                <div class="card">
                   <div class="card-header">
-                     <h5 class="card-title">tes</h5>
+                     <h5 class="card-title">Postingan Populer</h5>
                      <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                            <i class="fas fa-minus"></i>
@@ -92,25 +99,48 @@
                   </div>
                   <div class="card-body">
 
-                    
                      <div class="row">
                         <div class="col-md-12">
-
-                           
+                           <div class="table-responsive">
+                              <table class="table table-striped table-bordered table-hover" id="table-post">
+                                 <thead>
+                                    <tr>
+                                       <th>No</th>
+                                       <th>Judul</th>
+                                       <th>Kategori</th>
+                                       <th>Dilihat</th>
+                                       <th>Waktu Posting</th>
+                                       <th>Action</th>          
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                    @foreach($popular_posts as $post)
+                                    <tr>
+                                       <td>{{ $loop->iteration }}</td>
+                                       <td>{{ $post->title }}</td>
+                                       <td>{{ $post->name }}</td>
+                                       <td>{{ $post->view }}</td>
+                                       <td>{{ date('d-m-Y H:i:s', strtotime($post->created_at)) }}</td>
+                                       <td>
+                                          <a href="/post/{{ $post->slug }}" class="btn btn-primary" title="Detail">
+                                             <i class="fa fa-eye"></i>
+                                          </a>
+                                       </td>
+                                    </tr>
+                                    @endforeach         
+                                 </tbody>
+                              </table>
+                           </div>
                         </div>
                      </div>
 
                   </div>
                </div>
-
-
-
-
-
             </div>
          </div>
-      </div>
+         @endif
 
+      </div>
    </section>
 </div>
 

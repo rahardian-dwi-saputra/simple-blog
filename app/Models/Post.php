@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Cviebrock\EloquentSluggable\Sluggable;
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Builder;
 
 class Post extends Model
 {
@@ -28,6 +28,11 @@ class Post extends Model
                 'source' => 'title'
             ]
         ];
+    }
+
+    public function scopeActive(Builder $query): void
+    {
+        $query->where('is_publish', true);
     }
 
     public function category(): BelongsTo

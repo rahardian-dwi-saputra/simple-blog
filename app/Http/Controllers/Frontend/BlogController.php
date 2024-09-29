@@ -7,20 +7,29 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Category;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 
 class BlogController extends Controller
 {
 
     public function index(){
-    	
+
         $posts = Post::with(['category','user:id,name,username'])
                     ->withCount('view_posts as view')
-                    ->where('is_publish',true)
-                    ->latest()
-                    ->get();
+                    ->active();
+
+        if(request('search') != ''){
+
+            $posts->where(function (Builder $query) {
+                $query->where('title', 'like', '%'.request('search').'%')
+                      ->orWhere('body','like', '%'.request('search').'%');
+            });
+        }
+
+        //dd($posts->latest()->toSql());
 
     	return view('frontend.blog.all_blog',[
-    		'posts' => $posts,
+    		'posts' => $posts->latest()->get(),
             'active' => 'Blog',
             'title' => 'Semua Postingan',
     	]); 

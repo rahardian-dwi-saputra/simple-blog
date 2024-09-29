@@ -2,8 +2,20 @@
 @section('title','Home')
 @section('container')
 
-<h2 class="text-center mb-4 mt-3">{{ $title }}</h2>
+<h2 class="text-center mb-3 mt-3">{{ $title }}</h2>
 
+<div class="row justify-content-center mb-3">
+   <div class="col-md-6">
+      <form action="/blog">
+         <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Search.." name="search" value="{{ request('search') }}">
+            <button class="btn btn-primary" type="submit">Search</button>
+         </div>
+      </form>
+   </div>
+</div>
+
+@if($posts->count())
 <div class="card mb-3">
    <div class="position-absolute px-3 py-2" style="background-color: rgba(0,0,0,0.7);">
       <a href="/blog/category/{{ $posts[0]->category->slug }}" class="text-white text-decoration-none">{{ $posts[0]->category->slug }}</a>
@@ -57,7 +69,9 @@
       </div>
       @endforeach
    </div>
-</div> 
-
+</div>
+@else
+<p class="fs-4 text-center">Postingan Tidak Ditemukan</p>
+@endif 
 
 @endsection

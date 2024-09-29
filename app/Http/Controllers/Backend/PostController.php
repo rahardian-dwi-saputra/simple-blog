@@ -12,6 +12,8 @@ use \Cviebrock\EloquentSluggable\Services\SlugService;
 use App\Http\Requests\PostRequest;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
@@ -139,6 +141,10 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+        if (!Gate::allows('access-post', $post)) {
+            Response::denyWithStatus(404);
+        }
+
         $post->loadCount('view_posts as view');
         
         return view('backend.post.show', [
@@ -151,6 +157,10 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        if (!Gate::allows('access-post', $post)) {
+            Response::denyWithStatus(404);
+        }
+
         return view('backend.post.edit', [
             'title' => 'Edit Postingan',
             'data' => $post,
@@ -193,6 +203,10 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        if (!Gate::allows('access-post', $post)) {
+            return response()->json(['message' => 'Not Found!'], 404);
+        }
+
         if($post->image){
             Storage::delete($post->image);
         }
