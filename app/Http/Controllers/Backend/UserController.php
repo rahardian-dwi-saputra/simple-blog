@@ -83,6 +83,10 @@ class UserController extends Controller
 
             DB::table('posts')->where('author_id',$user->id)->delete();
 
+            if($user->foto){
+                Storage::delete($user->foto);
+            }
+
             $user->tokens()->delete();
             $delete = User::destroy($user->id);
             if($delete){

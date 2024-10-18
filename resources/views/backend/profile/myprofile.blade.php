@@ -104,8 +104,8 @@
                      
                      @if(auth()->user()->created_at)
                      <hr>
-                     <strong><i class="far fa-calendar mr-1"></i> Tanggal bergabung</strong>
-                     <p class="text-muted">{{ auth()->user()->created_at }}</p>
+                     <strong><i class="far fa-calendar mr-1"></i> Waktu bergabung</strong>
+                     <p class="text-muted">{{ date('d-m-Y H:i', strtotime(auth()->user()->created_at)) }}</p>
                      @endif
                      <br>
 

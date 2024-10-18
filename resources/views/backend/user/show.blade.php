@@ -36,6 +36,13 @@
                         <div class="col-xs-12 col-sm-12 col-md-12">
                            <div class="table-responsive">
                               <table class="table borderless">
+                                 @if($data->foto)
+                                 <tr>
+                                    <td colspan="3" style="text-align: center;">
+                                       <img src="{{ asset('storage/'.$data->foto) }}" class="img-fluid img-thumbnail img-circle" width="200" height="200" />
+                                    </td>
+                                 </tr>
+                                 @endif
                                  <tr>
                                     <td width="19%">
                                        <strong>Nama</strong>

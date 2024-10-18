@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Requests\UpdatePasswordRequest;
+use App\Rules\CurrentPassword;
 use Illuminate\Support\Facades\Hash;
 use Validator;
 
@@ -84,7 +84,13 @@ class ProfileController extends Controller
         return view('backend.profile.ubah_sandi');
     }
 
-    public function update_sandi(UpdatePasswordRequest $request){
+    public function update_sandi(Request $request){
+
+        $request->validate([
+            'old_password' => ['required', new CurrentPassword()],
+            'new_password' => ['required','min:5','confirmed'],
+        ]);
+
         $request->user()->update([
             'password' => Hash::make($request->get('new_password'))
         ]);
