@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\UpdatePasswordRequest;
 use Illuminate\Support\Facades\Hash;
+use Validator;
 
 class ProfileController extends Controller
 {
@@ -17,6 +19,43 @@ class ProfileController extends Controller
 
     public function index(){ 
     	return view('backend.profile.myprofile');
+    }
+
+    public function change_foto(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'profile_picture' => 'required|image|max:1000|mimes:png,jpg,jpeg',
+        ]);
+
+        if($validator->fails()){
+            return $validator->errors();            
+        }
+
+        if ($request->hasFile('profile_picture')) {
+            
+            if(auth()->user()->foto){
+                Storage::delete(auth()->user()->foto);
+            }
+
+            // Rename image
+            $filename = time().'.'.$request->file('profile_picture')->guessExtension();
+            
+            $path = $request->file('profile_picture')->storeAs(
+                'profile_pictures', $filename
+            );
+
+            User::where('id', auth()->user()->id)->update(['foto' => $path]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Foto profil berhasil diunggah',
+            ]);        
+        }
+        
+        return response()->json([
+            'success' => false,
+            'message' => 'Foto profil gagal diunggah',
+        ]);
     }
 
     public function edit_profile(){

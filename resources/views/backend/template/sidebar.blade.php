@@ -11,10 +11,11 @@
       <!-- Sidebar user (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
          <div class="image">
+            
             @if(auth()->user()->foto)
-
+            <img src="{{ asset('storage/'.auth()->user()->foto) }}" class="img-circle elevation-2" id="user-foto" alt="User Image">
             @else
-            <img src="{{ asset('assets/dist/img/default-profil.png') }}" class="img-circle elevation-2" alt="User Image">
+            <img src="{{ asset('assets/dist/img/default-profil.png') }}" class="img-circle elevation-2" id="user-foto" alt="User Image">
             @endif
 
          </div>

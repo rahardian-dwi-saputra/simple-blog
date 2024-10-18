@@ -52,6 +52,7 @@ Route::middleware('auth')->group(function(){
 
 	Route::controller(ProfileController::class)->group(function(){ 
 		Route::get('/myprofil', 'index');
+		Route::post('/change-foto','change_foto');
 		Route::get('/myprofil/edit', 'edit_profile');
 		Route::post('/myprofil/edit', 'update_profile');
 		Route::get('/ubahsandi', 'edit_sandi');
