@@ -7,7 +7,8 @@ Aplikasi Blog Sederhana yang dibuat menggunakan framework Laravel
 - Menampilkan semua daftar postingan
 - Menampilkan daftar berdasarkan kategori dan penulis
 - Tiap user bisa membuat, mengedit, dan menghapus postingan
-- Admin dapat menghapus postingan user jika postingan dinilai tidak pantas
+- Tiap user bisa memilih untuk mempublikasi atau tidak postingannya
+- Admin dapat menghapus postingan user yang terpublikasi jika postingan kurang pantas 
 - Verifikasi user dan reset password via email
 
 ## Tech
@@ -20,7 +21,7 @@ Aplikasi ini dibangun dengan menggunakan :
 - [API Image Lorem Picsum](https://picsum.photos/) - Salah satu layanan API yang menyediakan berbagai macam gambar secara acak
 
 ## Requirement
-- Laravel Valet 2.5.1 or later
+- Laravel Valet 2.5.1 or later (optional)
 - PHP 8.2.4 or later
 - Composer 2.5.4 or later
 - MySQL Server 8.0 or later

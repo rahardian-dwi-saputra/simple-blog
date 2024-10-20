@@ -43,16 +43,32 @@ class BlogController extends Controller
     }
 
     public function blog_categories(Category $category){
+        $posts = Post::with(['category','user:id,name,username'])
+                    ->withCount('view_posts as view')
+                    ->active()
+                    ->where('category_id', $category->id)
+                    ->latest()
+                    ->get();
+
         return view('frontend.blog.all_blog',[
-            'posts' => $category->posts->load('category','user'),
+            //'posts' => $category->posts->load('category','user'),
+            'posts' => $posts,
             'active' => 'Blog',
             'title' => 'Postingan Kategori '.$category->name,
         ]);
     }
 
     public function blog_user(User $author){
+        $posts = Post::with(['category','user:id,name,username'])
+                    ->withCount('view_posts as view')
+                    ->active()
+                    ->where('author_id', $author->id)
+                    ->latest()
+                    ->get();
+
         return view('frontend.blog.all_blog',[
-            'posts' => $author->posts->load('category','user'),
+            //'posts' => $author->posts->load('category','user'),
+            'posts' => $posts,
             'active' => 'Blog',
             'title' => 'Postingan User '.$author->name,
         ]);

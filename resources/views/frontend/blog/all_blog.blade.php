@@ -1,5 +1,5 @@
 @extends('frontend/template/main')
-@section('title','Home')
+@section('title','Blog')
 @section('container')
 
 <h2 class="text-center mb-3 mt-3">{{ $title }}</h2>

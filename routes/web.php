@@ -9,6 +9,7 @@ use App\Http\Controllers\Backend\PostController;
 use App\Http\Controllers\Backend\AllPostController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\RegisterController;
+use App\Http\Controllers\Backend\VerificationController;
 use App\Http\Controllers\Backend\ForgotPasswordController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\BlogController;
@@ -72,6 +73,14 @@ Route::middleware('auth')->group(function(){
 		});
 		
 		Route::resource('user', UserController::class)->only(['index','show','destroy']);
+	});
+});
+
+Route::middleware('auth')->group(function(){
+	Route::controller(VerificationController::class)->group(function(){
+		Route::get('/email/verify/{hash}/{token}', 'verifyUser')->name('verification.verify');
+		Route::get('/email/verify', 'index')->name('verification.notice');
+		Route::post('/email/verification-notification', 'send_verification')->middleware('throttle:6,1')->name('verification.send');
 	});
 });
 

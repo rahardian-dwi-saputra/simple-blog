@@ -37,7 +37,12 @@
 
   <div class="col">
     <div class="card text-center p-3">
+      @if($user->foto)
+      <img src="{{ asset('storage/'.$user->foto) }}" class="img-thumbnail img-fluid rounded-circle mx-auto d-block" alt="user-foto" width="150" height="150">
+      @else
       <img src="{{ asset('assets/dist/img/default-profil.png') }}" class="img-thumbnail img-fluid rounded-circle mx-auto d-block" alt="user-foto" width="150" height="150">
+      @endif
+
       <h5 class="card-title mt-1"><a href="/blog/user/{{ $user->username }}" class="text-decoration-none text-dark">{{ $user->name }}</a></h5>
       <p class="card-text">Total Postingan : {{ $user->total }}</p>
     </div>

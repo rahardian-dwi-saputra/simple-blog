@@ -6,6 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Sqids\Sqids;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SignUpMail;
 
 class RegisterController extends Controller
 {
@@ -30,9 +36,33 @@ class RegisterController extends Controller
         $user->save();
 
         if($user != null){
+            $sqids = new Sqids(minLength: 10);
+            $hash = $sqids->encode([$user->id]);
+
+            $token = Str::random(64);
+
+            DB::table('users_verify')->insert([
+                'hash' => $hash,
+                'user_id' => $user->id,
+                'token' => $token,
+                'created_at' => Carbon::now()
+            ]);
+
+            $mailData = [
+                'hash' => $hash,
+                'name' => $user->name,
+                'token' => $token
+            ];
+
+            Mail::to($request->email)->send(new SignUpMail($mailData));
+
+            auth()->login($user);
+            //return redirect('/email/verify')->with('success', 'Verification link sent!');
+
             return redirect('/login')->with('success', 'Registrasi berhasil, silahkan login');
         }else{
             return redirect('/register')->with('error', 'Registrasi gagal, silahkan coba sekali lagi');
         }
     }
+    
 }

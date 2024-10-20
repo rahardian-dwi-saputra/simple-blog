@@ -79,9 +79,11 @@ class UserController extends Controller
                 if($post->image){
                     Storage::delete($post->image);
                 }
+                DB::table('view_posts')->where('post_id',$post->id)->delete();
             }
 
             DB::table('posts')->where('author_id',$user->id)->delete();
+            DB::table('users_verify')->where('user_id',$user->id)->delete();
 
             if($user->foto){
                 Storage::delete($user->foto);
